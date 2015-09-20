@@ -1,0 +1,79 @@
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+table{ margin:auto;}
+</style>
+</head>
+
+<body onLoad="fun1();">
+
+
+
+<table bgcolor="#0066FF" width="500px" align="center"> 
+<form method="get" action="__SELF__">
+<tr><td colspan="3" align="center" style="line-height:30px;"><b>文章列表</b></td></tr>
+<tr>
+
+<td colspan="3">关键字：<input type="text" name='keyword'/>
+      类型：<select name="type">
+      <option selected="selected" value="">请选择</option>
+	  {{foreach  from=$arr  item=v}} 
+      <option value="{{$v.id}}">{{$v.typename}}</option>;
+	  {{/foreach}}
+      </select>
+      
+      <input type="submit" value="搜索" ></td>
+</tr>
+</form>
+
+<script type="text/javascript">
+function  fun1(){
+       ob=document.getElementsByName("all");
+	   c=ob[0].checked;
+	   obs=document.getElementsByName("id[]");
+	   for(i=0;i<obs.length;i++){
+			 obs[i].checked=c;
+	   }
+	
+	  
+}
+function  fun2(){
+       obs=document.getElementsByName("id[]"); 
+	   idarr=[];
+	   for(i=0;i<obs.length;i++){
+			          if(obs[i].checked==true){
+					         idarr.push(obs[i].value);
+					  }
+					  
+	   }
+	   idstr=idarr.toString();
+	   ob=document.getElementById("allde");
+	   ob.href="__URL__/del?id="+idstr;
+	   alert(ob.href);
+	   
+	   
+}
+
+</script>
+
+  <tr>  
+        <td>全选<input type="checkbox" name="all"  onClick="fun1();">&nbsp;&nbsp;&nbsp;<a id="allde" href="" onClick="fun2();">已选删除</a></td>
+        <td>标题</td>
+        <td>操作</td>
+  </tr>
+   {{foreach  from=$nArr  item=av}}
+   <tr>
+        <td><input type="checkbox" name="id[]" value="{{ $av.id}}"></td>
+        <td ><a href="__ROOT__/index.php/news/detail?id={{$av.id}}">{{$av.title}}</a></td>
+        <td><a href="__URL__/update?id={{$av.id}}">修改</a><a href="__URL__/del?id={{$av.id}}">删除</a><a href="__URL__/add">添加</a></td>
+  </tr>
+   {{/foreach}}
+   <tr>
+        <td colspan="3">{{$pageStr}}</td>
+   </tr>
+</table>
+</body>
+</html>
+

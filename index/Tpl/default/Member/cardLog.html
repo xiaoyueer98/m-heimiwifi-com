@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<body>
+<div id="main">
+
+<div class="menu_bg ">
+    <div class="menu_width "><span class="spanlh" onclick="javascript:history.go(-1);"  ><img src="__ROOT__/index/Tpl/images/back.gif" width="100%"/></span>
+        <span class="sTlh" >个人中心</span>
+      {{if $is_login_tmp}}
+	      <div class="sTHlh"  ><a href="index.php?m=Member&a=userCenter"><img src="__ROOT__/index/Tpl/images/me.gif" width="100%" /></a></div>
+        {{else}}
+        {{/if}}
+      </div>
+</div>      
+
+<div style="float: left;font-size:1.5em;color:#61605e;text-align:left;margin:5%;width: 90%">充值记录<hr></div>
+<div class="card_list">
+    {{foreach from=$cardLog item=v}} 
+    <div class="time">{{$v.time}}</div>
+    <div class="list">
+       <div class="span11">{{$v.title}}</div>
+       <div class="span22">￥{{$v.price}}</div>
+    </div>
+    {{foreachelse}}
+    <div class="listwu_cardLog" style="text-align:left;margin-left:5%;padding-top:-1em;color:#909090;margin-bottom:5.5em;">您暂无充值记录</div>
+    {{/foreach}} 
+
+
+
+<!--footer-->
+{{include file="default/Public/footer.html"}}
+<!--footer end-->
+</div>
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

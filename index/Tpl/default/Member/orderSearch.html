@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet"
+	type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png"
+	type="image/x-icon">
+	<style type="text/css">
+
+.orderlist {
+	background-color:#fff; 
+	margin-top:0.3em;
+	margin-left:5%;
+	margin-right:5%;
+	text-align:left;
+
+}
+.orderlist div{
+	margin:0.3em 0px 0.06em 0.3em;
+}
+
+.orderlist img{
+	margin:0.3em 0px 0.3em 0.3em;
+}
+
+.listwu1{font-size: 1em;margin-bottom: 10em;color:#626262;float: left;margin-left:5%;padding-top:0.66em;border-top:1px solid #909090;width:90%;margin-top:1.66em;text-align:left;}
+</style>
+
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+if("{{$num}}" != 0){
+     $(".order_tip").html("<div style='color:#e65a1d;'>您有{{$num}}笔交易未完成，请及时付款</div>");
+}
+
+})
+//立即支付
+function btnpay(id){
+	location.href="?m=Member&a=orderPay&id="+id;
+}
+//取消订单
+function btncancel(id,yhq){
+	$.ajax({
+		url : "?m=Member&a=orderCancel",
+		data : "id=" + id+"&yhq=" + yhq,
+		dataType : "text",
+		type : "GET",
+		success : function(re) {
+			if ($.trim(re) === "1") {
+				sys_alert("取消成功");
+				location.href = "index.php?m=Member&a=orderSearch";
+			} else {
+				sys_alert("取消失败");
+			}
+
+		}
+
+	})
+	
+}
+</script>
+</head>
+<body >
+	<div id="main_order">
+
+		<div class="menu_bg ">
+			<div class="menu_width">
+				<span class="spanlh" onclick="javascript:history.go(-1);" ><img
+                                        src="__ROOT__/index/Tpl/images/back.gif" width="100%" />
+				</span>
+                <span class="sTlh" >个人中心</span>
+				{{if $is_login_tmp}}
+                                <div class="sTHlh" ><a href="index.php?m=Member&a=userCenter"><img src="__ROOT__/index/Tpl/images/me.gif" width="100%"/></a></div>
+		        {{else}}
+		        {{/if}}
+			</div>
+		</div>
+		<div class="mywifi_title" style="border-bottom:0px solid #e5e5e5;margin-left:5%;">订单查询</div>
+        <div class="order_tip" style="text-align:left;margin-left:5%;color:#909090;padding-top:0.66em;padding-bottom:1em;border-top:1px solid #ccc;width:90%;font-size:1.25em;"></div>
+
+		{{foreach from="$orderArr" item=order}} {{if $order.status==1}}
+		
+		
+		<div style="border-bottom:1px solid #e5e5e5;margin-top: 1.25em;margin-left: 5%;margin-right: 5%"></div>
+		<div class="orderlist" style="border-bottom:1px solid #e5e5e5;margin-top: 1.25em" >
+			<div style="padding-top:0.6em;color: #61605e;font-size: 1.25em">订单编号：{{$order.orderId}}</div>
+			<div style="padding-top:0.66em;color: #61605e;font-size: 1.25em">成交时间：{{$order.time}}</div>
+            
+            
+			<!-- lh -->
+            <div class="card_order_search clear">
+                  <div class="tu">
+                      <img src={{$order.thumbimg}} width="100%" />
+                  </div>	
+                  <div class="desc">
+                          <div class="h2">{{ $order.title}}</div>
+                          <div style="margin-top:1.5em; margin-bottom:0.55em; display:inline-block;">售价：¥{{$order.price}}</div>
+                    <div>
+                          <div style="display:inline-block;">
+                          <form action="{{$order.payType}}" method="post" id="form">
+					<input type="hidden" name="trade_no" value="{{$order.orderId}}"/><!--订单号-->
+				    <input type="hidden" name="ordsubject" value="{{$order.title}}"/><!--订单名称-->
+				    <input type="hidden" name="ordbody" value="{{$order.title}}+{{$order.price-$order.discount}}"/><!--订单描述-->
+					<input type="hidden" name="ordtotal_fee" value="{{$order.price-$order.discount-order.yhd}}" id="priceNew"/><!--总金额-->
+				  	<input type="hidden" name="ordshow_url" value="http://m.heimiwifi.com/index.php?m=Product&a=detail_buy&id={{$order.pid}}"/><!--商品展示url-->	
+                                        <div style="width:4.33em;height: 1.75em;">
+                                          <input width="100%" type="image" 
+						src="__ROOT__/index/Tpl/images/paynow.gif"
+						onclick="btnpay({{$order.orderId}})" style="border:0"/>
+                                        </div>
+					  </form>
+                          </div>
+                          <div style="display:inline-block;">
+                          <div style="width:4.33em;height: 1.75em;">
+                                            <input width="100%" type="image"  style="border:0;"
+						src="__ROOT__/index/Tpl/images/btn_cancel.gif"
+						onclick="btncancel({{$order.id}},{{$order.yhqId}})"/>
+                          </div>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+           <!-- lh -->
+           <!--
+			<table width="100%">
+				<tr>
+                                    <td width="20%" rowspan="2">
+                                    <div style="width:5.41em;height: 7.41em;">
+                                        <img width="100%" 
+						src="{{$order.thumbimg}}" />
+                                    </div>
+                                    </td>
+					<td colspan='3' style="padding-top:1em;padding-bottom:0.33em;">{{$order.title}}</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom:0.83em;font-size: 0.8em;color: #909090" >售价：¥{{$order.price}}</td>
+					<td align="right">
+					<form action="{{$order.payType}}" method="post" id="form">
+					<input type="hidden" name="trade_no" value="{{$order.orderId}}"/>
+				    <input type="hidden" name="ordsubject" value="{{$order.title}}"/>
+				    <input type="hidden" name="ordbody" value="{{$order.title}}+{{$order.price-$order.discount}}"/>
+					<input type="hidden" name="ordtotal_fee" value="{{$order.price-$order.discount-order.yhd}}" id="priceNew"/>
+				  	<input type="hidden" name="ordshow_url" value="http://m.heimiwifi.com/index.php?m=Product&a=detail_buy&id={{$order.pid}}"/>
+                                        <div style="width:4.33em;height: 1.75em;">
+                                          <input width="100%" type="image" 
+						src="__ROOT__/index/Tpl/images/paynow.gif"
+						onclick="btnpay({{$order.orderId}})" style="border:0"/>
+                                        </div>
+					  </form>
+				  </td>
+					<td >
+                                            <div style="width:4.33em;height: 1.75em;">
+                                            <input width="100%" type="image"  style="border:0;"
+						src="__ROOT__/index/Tpl/images/btn_cancel.gif"
+						onclick="btncancel({{$order.id}},{{$order.yhqId}})"/>
+                                            </div>
+				  </td>
+				</tr>
+			</table>
+            -->
+		</div>
+		
+		{{elseif $order.status==2}}
+		<div style="border-bottom:1px solid #e5e5e5;margin-top: 1.25em;margin-left: 5%;margin-right: 5%"></div>
+		<div  class="orderlist" style="border-bottom:1px solid #e5e5e5;background:white">
+			<div style="padding-top:0.6em;color: #61605e;font-size: 1.25em">订单编号：{{$order.orderId}}</div>
+			<div style="padding-top:0.66em;color: #61605e;font-size: 1.25em">成交时间：{{$order.time}}</div>
+			<div style="margin-top:0.66em;margin-bottom:0.93em;color: #61605e;font-size: 1.25em;line-height: 1.33em">您的订单已成功提交,我们会尽快为您发货</div>
+
+			<!-- lh -->
+            <div class="card_order_search clear">
+                  <div class="tu">
+                      <img src={{$order.thumbimg}} width="100%" />
+                  </div>	
+                  <div class="desc">
+                          <div class="h2">{{ $order.title}}</div>
+                          <div style="margin-top:1.5em; margin-bottom:0.55em; display:inline-block;">售价：¥{{$order.price}}</div>
+                          <div></div>
+                  </div>
+            </div>
+           <!-- lh -->
+           <!--
+			<table width="100%" style="background: white">
+				<tr>
+					<td rowspan="2" width="20%" ><img width="100%" style="margin-left:0.6em;margin-right:0.6em;"
+						src="{{$order.thumbimg}}" /></td>
+					<td colspan='3' style="padding-top:0.83em;line-height:1.5em;">{{$order.title}}</td>
+				</tr>
+				<tr>
+					<td>售价：¥{{$order.price}}</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
+            -->
+		</div>
+		{{elseif $order.status==3}}
+		<div style="border-bottom:1px solid #e5e5e5;margin-top: 1.25em;margin-left: 5%;margin-right: 5%"></div>
+		<div class="orderlist" style="border-bottom:1px solid #e5e5e5;background:white;">
+			<div style="padding-top:0.6em;color: #61605e;font-size: 1.25em">订单编号：{{$order.orderId}}</div>
+			<div style="padding-top:0.66em;color: #61605e;font-size: 1.25em">成交时间：{{$order.time}}</div>
+			<div style="padding-top:0.66em;color: #61605e;font-size: 1.25em">快递公司：{{$order.transfer}}</div>
+			<div style="padding-top:0.66em;margin-bottom:0.9em ;color: #61605e;font-size: 1.25em">快递单号：{{$order.transferCode}}</div>
+
+
+
+			<!-- lh -->
+            <div class="card_order_search clear">
+                  <div class="tu">
+                      <img src={{$order.thumbimg}} width="100%" />
+                  </div>	
+                  <div class="desc">
+                          <div class="h2">{{ $order.title}}</div>
+                          <div style="margin-top:1.5em; margin-bottom:0.55em; display:inline-block;">售价：¥{{$order.price}}</div>
+                          <div></div>
+                  </div>
+            </div>
+           <!-- lh -->
+           <!--
+			<table width="100%" style="background: white">
+				<tr>
+					<td width="20%" rowspan="2">
+                    <img width="100%" style="margin-left:0.6em;margin-right:0.6em"
+						src="{{$order.thumbimg}}" />
+                        </td>
+					<td colspan='2' style="padding-top:0.83em;line-height:1.5em;">{{$order.title}}</td>
+				</tr>
+				<tr>
+					<td >售价：¥{{$order.price}}</td>
+					<td ></td>
+					<td ></td>
+				</tr>
+			</table>
+            -->
+		</div>
+		{{elseif $order.status==4}}
+		<div style="border-bottom:1px solid #e5e5e5;margin-top: 1.25em;margin-left: 5%;margin-right: 5%"></div>
+		<div class="orderlist" style="border-bottom:1px solid #e5e5e5;">
+			<div style="padding-top:0.6em;color: #61605e;font-size: 1.25em">订单编号：{{$order.orderId}}</div>
+			<div style="padding-top:0.66em;color: #61605e;font-size: 1.25em">成交时间：{{$order.time}}</div>
+            
+            
+			<!-- lh -->
+            <div class="card_order_search clear">
+                  <div class="tu">
+                      <img src={{$order.thumbimg}} width="100%" />
+                  </div>	
+                  <div class="desc">
+                          <div class="h2">{{ $order.title}}</div>
+                          <div style="margin-top:1.5em; margin-bottom:0.55em; display:inline-block;">售价：¥{{$order.price}}</div>
+                          <div style="margin-top:1.5em;padding-right: 0.6em; display:inline-block; float:right; color:#000">已过期</div>
+                          
+                  </div>
+            </div>
+           <!-- lh -->
+           <!--
+			<table width="100%">
+				<tr>
+					<td rowspan="2" width="20%" ><div style="width:5.41em;height: 7.41em;"><img width="100%" style="margin-left:0.6em;margin-right:0.6em"
+						src="{{$order.thumbimg}}" /></div></td>
+					<td colspan='2' style="padding-top:0.83em;line-height:1.5em;">{{$order.title}}</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom:0.83em;font-size: 1em;color: #909090">售价：¥{{$order.price}}</td>
+					<td align="right" style="padding-right: 1.66em">已过期</td>
+					<td></td>
+				</tr>
+			</table>
+            -->
+		</div>
+		{{elseif $order.status==5}}
+		<div style="border-bottom:1px solid #e5e5e5;margin-top: 1.25em;margin-left: 5%;margin-right: 5%"></div>
+		<div class="orderlist" style="border-bottom:1px solid #e5e5e5;">
+			<div style="padding-top:0.6em;color: #61605e;font-size: 1.25em">订单编号：{{$order.orderId}}</div>
+			<div style="padding-top:0.66em;color: #61605e;font-size: 1.25em">成交时间：{{$order.time}}</div>
+			<!-- lh -->
+            <div class="card_order_search clear">
+                  <div class="tu">
+                      <img src={{$order.thumbimg}} width="100%" />
+                  </div>	
+                  <div class="desc">
+                          <div class="h2">{{ $order.title}}</div>
+                          <div style="margin-top:1.5em; margin-bottom:0.55em; display:inline-block;">售价：¥{{$order.price}}</div>
+                          <div style="margin-top:1.5em;padding-right: 0.6em; display:inline-block; float:right; color:#000">已关闭</div>
+                          
+                  </div>
+            </div>
+           <!-- lh -->
+           <!--
+            <table width="100%">
+				<tr>
+					<td rowspan="2" width="20%" ><div style="width:5.41em;height: 7.41em;"><img width="100%" style="margin-left:0.6em;margin-right:0.6em"
+						src="{{$order.thumbimg}}" /></div></td>
+					<td colspan='2' style="padding-top:0.83em;padding-bottom:0.41em;line-height:1.5em;">{{$order.title}}</td>
+				</tr>
+				<tr>
+					<td style="padding-bottom:0.83em;font-size: 1em;color: #909090">售价：¥{{$order.price}}</td>
+					<td align="right" style="padding-right: 1.66em">已关闭</td>
+					<td></td>
+				</tr>
+			</table>
+            -->
+		</div>
+		{{/if}} 
+        {{foreachelse}}
+        
+        <div class="listwui1" > 您暂无订单记录</div>   
+        
+		<div style="border-bottom:0px solid #e5e5e5;margin-top: 1.25em;margin-left: 5%;margin-right: 5%"></div>
+        {{/foreach}}
+</div>
+<div></div>
+{{include file="default/Public/footer.html"}}
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+
+</body>
+</html>

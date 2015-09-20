@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>跳转</title>
+        <script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+        <script type="text/javascript" src="__ROOT__/index/Tpl/js/memberpc.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                function   jump() {
+
+                    wait = $(".wait").text();
+                    wait--
+                    $(".wait").text(wait);
+                    if (wait == 0) {
+
+                        location.replace("{{$jumpUrl}}");
+                    }
+
+                }
+                setInterval(jump, 1000);
+            })
+        </script>
+        <link href="__ROOT__/index/Tpl/css/memberpc.css" rel="stylesheet" type="text/css"  ></link>
+    </head>
+    <body>
+        <table style="width:960px" align="center">
+            <tr>
+                <td width="1%"></td>
+                <td height="70" valign="middle" width="33%">
+                    <img src="__ROOT__/index/Tpl/images/pcimages/logo.gif" style="display:inline" /> &nbsp;&nbsp;</td>
+                <td width="43%"></td>
+                <td width="23%">&nbsp;</td>
+            </tr>
+        </table>
+        <div  style="position:static;width:width:960px; height:652px;background:#e9e7e4;">
+            <div  style="position:relative;top:24px; width:960px;margin:0px auto;text-align:center;;height:574px;background:#FFFFFF">
+                <br />
+                <br />
+                <br />
+                <table width="960px">
+                    <tr>
+                        <td width="47%" align="right"><font style="font-weight:bold; font-size:24px; color:#e65a1d">{{$title}}</font></td>
+                        <td width="52%"></td>
+                        <td width="10%"></td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="3">{{$information}} <span class="wait">{{$waitSecond}}</span>秒后将自动跳转到{{$page}}. 或点击<a href="{{$jumpUrl}}">跳转</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--footer-->
+        {{include file="default/Public/pcfooter.html"}}
+        <!--footer end-->
+    </body>
+</html>

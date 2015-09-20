@@ -1,0 +1,312 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" href="__ROOT__/admin/Tpl/css/html.css" rel="stylesheet">
+<link type="text/css" href="__ROOT__/admin/Tpl/css/date.min.css" rel="stylesheet">
+<title>虚拟产品添加</title>
+</head>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery.js"></script>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+var re1 = false;
+var re2 = false;
+var re3 = true;
+var re4 = true;
+var re5 = false;
+var re6 = true;
+var re7 = true;
+var re8 = true;
+var re9 = false;
+var re10 = false;
+$(document).ready(function(){
+
+$("[name='title']").blur(function(){
+     if($(this).val()==""){
+           $(".span_title").html("<font style='color:red'>名称不能为空</font>");
+           re1 = false;
+     }else{
+           $(".span_title").html("");
+           re1 = true;
+     }        
+
+})
+
+$("[name='price']").blur(function(){
+     reg = /^\d+$/;
+     if($(this).val()==""){
+           $(".span_price").html("<font style='color:red'>价格不能为空</font>");
+           re2 = false;
+     }else if(!reg.test($.trim($(this).val()))){
+           
+           $(".span_price").html("<font style='color:red'>价格不符合规则</font>");
+           re2 = false;
+
+     }else{
+           $(".span_price").html("");
+           re2 = true;
+     }        
+
+})
+$("[name='data']").blur(function(){
+     reg = /^\d+$/;
+     if($(this).val()==""){
+           $(".span_data").html("<font style='color:red'>总流量不能为空</font>");
+           re5 = false;
+     }else if(!reg.test($.trim($(this).val()))){
+           
+           $(".span_data").html("<font style='color:red'>总流量不符合规则</font>");
+           re5 = false;
+
+     }else{
+           $(".span_data").html("");
+           re5 = true;
+     }        
+
+})
+$("[name='monthData']").blur(function(){
+     reg = /^\d+$/;
+     if($(this).val()==""){
+           $(".span_monthData").html("<font style='color:red'>月返流量不能为空</font>");
+           re6 = false;
+     }else if(!reg.test($.trim($(this).val()))){
+           
+           $(".span_monthData").html("<font style='color:red'>总流量不符合规则</font>");
+           re6 = false;
+
+     }else{
+           $(".span_monthData").html("");
+           re6 = true;
+     }        
+
+})
+$("[name='type']").change(function(){
+     
+     if($(this).val()==""){
+           $(".span_type").html("<font style='color:red'>配额类型不能为空</font>");
+           re7 = false;
+
+     }else{
+           $(".span_type").html("");
+           re7 = true;
+     }        
+
+})
+$("[name='validTime']").change(function(){
+     
+     if($(this).val()==""){
+           $(".span_validTime").html("<font style='color:red'>卡属性不能为空</font>");
+           re8 = false;
+
+     }else{
+           $(".span_validTime").html("");
+           re8 = true;
+     }        
+
+})
+
+$("[name='beginTime']").change(function(){
+     
+     if($(this).val()==""){
+           $(".span_beginTime").html("<font style='color:red'>开始时间不能为空</font>");
+           re9 = false;
+
+     }else{
+           $(".span_beginTime").html("");
+           re9 = true;
+     }        
+
+})
+$("[name='endTime']").change(function(){
+     
+     if($(this).val()==""){
+           $(".span_endTime").html("<font style='color:red'>结束时间不能为空</font>");
+           re10 = false;
+
+     }else{
+           $(".span_validTime").html("");
+           re10 = true;
+     }        
+
+})
+$("[name='store']").blur(function(){
+     reg1 = /^\d+$/;
+     if($(this).val()==""){
+           $(".span_store").html("<font style='color:red'>库存不能为空</font>");
+           re3 = false;
+     }else if(!reg1.test($.trim($(this).val()))){
+           
+           $(".span_store").html("<font style='color:red'>库存不符合规则</font>");
+           re3 = false;
+
+     }else{
+           $(".span_store").html("");
+           re3 = true;
+     }        
+
+})
+$("[name='discount']").blur(function(){
+     reg2 = /^\d+$/;
+     if($(this).val()==""){
+           $(".span_discount").html("<font style='color:red'>优惠价格不能为空</font>");
+           re4 = false;
+     }else if(!reg2.test($.trim($(this).val()))){
+           
+           $(".span_discount").html("<font style='color:red'>优惠价格不符合规则</font>");
+           re4 = false;
+
+     }else{
+           $(".span_discount").html("");
+           re4 = true;
+     }        
+
+})
+$("#btnsub").click(function(){
+     if(re1 && re2 && re3 && re4 && re5 && re6&& re7&& re8&& re9&& re10){   
+           $("form")[0].submit();
+     }
+      if(!re1){
+           $(".span_title").html("<font style='color:red'>名称不能为空</font>");
+     }
+    if(!re2){
+           $(".span_price").html("<font style='color:red'>请正确填写价格</font>");
+     } 
+    if(!re3){
+           $(".span_store").html("<font style='color:red'>库存不符合规则</font>");
+     }
+    if(!re4){
+            $(".span_discount").html("<font style='color:red'>请正确填写优惠价格</font>");
+     } 
+    if(!re5){
+           $(".span_data").html("<font style='color:red'>请正确填写总流量</font>");
+     }
+    if(!re6){
+           $(".span_monthData").html("<font style='color:red'>请正确填写月返流量</font>");
+      }
+     if(!re7){
+           $(".span_type").html("<font style='color:red'>配额类型不能为空</font>");
+     }
+    if(!re8){
+           $(".span_validTime").html("<font style='color:red'>卡属性不能为空</font>");
+      }
+    if(!re9){
+           $(".span_beginTime").html("<font style='color:red'>开始时间不能为空</font>");
+     }
+    if(!re10){
+           $(".span_endTime").html("<font style='color:red'>结束时间不能为空</font>");
+      }
+})
+
+})
+</script>
+<body>
+
+<form method="post" action="/admin.php?m=Card&a=pcaddSave" enctype="multipart/form-data"> 
+<table bgcolor="#eee" width="900px" align="center">         
+                <tr>
+                           <th colspan="2" style="padding-top:20px;"><h2>PC虚拟产品添加</h2></th>
+                </tr>
+                <tr>
+                           <td>产品名称：</td><td><input type="text" name="title"/><span class="span_title"></span></td>
+                </tr>
+               
+                <tr>     
+                         <td>市场价：</td><td><input type="text" name="price" />
+                         <span class="span_price"></span></td>
+                </tr>
+                <tr>     
+                         <td>总流量：</td><td><input type="text" name="data" />G
+                         <span class="span_data"></span></td>
+                </tr>
+                <tr>     
+                         <td>月返流量：</td><td><input type="text" name="monthData"  value="0"/>G
+                         <span class="span_monthData"></span></td>
+                </tr>
+                <tr>
+                         <td>
+                                 套餐有效期开始时间 ：
+                         </td>
+                         <td> 
+                             <input class="datepicker datepicker1" style="width: 78px;"alt="开始日期" title="开始日期" name="beginTime" default_val="开始日期" value="开始日期" style="color:#999999;" type="text" id="start_time">
+                             <span class="span_beginTime"></span></td>   
+                         </td>
+                </tr>
+                <tr>
+                         <td>
+                                套餐有效期截止日期 ： 
+                         </td>
+                         <td> 
+                            <input class="datepicker datepicker2" style="width: 78px"alt="截止日期" title="截止日期" name="endTime"  value="截止日期"  default_val="截止日期"style="color:#999999;" type="text" id="end_time">
+                            <span class="span_endTime"></span></td>  
+                         </td>
+                </tr>
+                <tr>
+                         <td>卡属性</td>
+                         <td>
+                                 <select name="validTime">
+                                        <option value="">请选择卡属性</option>                                            
+                                        <option value="0" selected="selected">年卡</option>
+                                        <option value="1">1月卡</option>
+                                        <option value="2">2月卡</option>
+                                        <option value="3">3月卡</option>
+                                        <option value="4">4月卡</option>
+                                        <option value="5">5月卡</option>
+                                        <option value="6">6月卡</option>
+                                        <option value="7">7月卡</option>
+                                        <option value="8">8月卡</option>
+                                        <option value="9">9月卡</option>
+                                        <option value="10">10月卡</option>
+                                        <option value="11">11月卡</option>
+                                        <option value="12">12月卡</option>
+                                 </select>
+                                 <span class="span_validTime"></span></td>  
+                         </td>
+                </tr>
+                <tr>
+                          <td>库存：</td>
+                          <td><input type="text" name="store"  value="1000"/><span class="span_store" ></span></td>
+                </tr>
+                <tr>
+                          <td>配额类型：</td>
+                          <td>
+                          
+                              <select name="type"/>
+                                    <option value="">请选择配额类型</option>
+                                    <option value="1">月卡</option>
+                                    <option value="2">按月返年卡</option>
+                                    <option value="3" selected="selected">年卡</option>
+                              </select>
+                              <span class="span_type" ></span>
+                          </td>
+                </tr>
+                <tr>
+                         <td>优惠价格：</td>i
+                         <td><input type="text" name="discount"  value="0" /> <span class="span_discount"></span></td>
+                </tr>
+                <tr>
+                         <td>缩略图：</td><td><input type="file" name="pic[]"  /></td>
+                </tr>
+                <tr>
+                         <td>banner图：</td><td><input type="file" name="pic[]" /></td>
+                </tr>
+                
+                <tr>
+                          <td>产品状态</td>
+                          <td>
+                              <select name="status"/>
+                                    <option value="1">上架</option>
+                                    <option value="2" selected="selected">下架</option>
+                              </select>
+                          <span class="span_status" ></span></td>
+                </tr>
+                <tr><td colspan="2"><input type="button" value="提交" id="btnsub"></td></tr>
+                
+                
+
+
+</table>
+</form>
+
+</body>
+</html>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/date.js?v={STATIC_VERSION}"></script>
+

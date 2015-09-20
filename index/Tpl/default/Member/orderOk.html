@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+       
+function  fun1(){
+    	      
+      location.href="?m=Index&a=index";
+}
+
+</script>
+<body>
+<div id="main">
+    
+<div class="menu_bg ">
+      <div class="menu_width "><span class="sTlh"  >黑米WIFI</span></div>
+</div>      
+<center>
+
+<table class="table_orderOk">
+  <tr>
+    <td>
+      <h1>提交订单成功</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>订单号为：{{$orderId}}</td>
+  </tr>
+  <tr>
+    <td>总金额为{{$sum}}</td>
+  </tr>
+  <tr>
+    <td>请尽快支付！</td>
+  </tr>
+  <tr>
+    <td>
+      <input type="button" value="立即支付">
+    </td>
+    <td>
+      <input type="button" value="继续购物" onclick="fun1();">
+    </td>
+  </tr>
+</table>
+</center>
+
+<!--尾部-->
+{{include file="default/Public/footer.html"}}
+<!--尾部end-->
+</div>

@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+function fun1(id){
+     
+$.ajax({
+      url:"?m=Member&a=isLogin",
+      success:function(re){
+      if($.trim(re)==="1"){
+			 	      
+	      var num=1;
+          var type=2;
+	      //产品信息写进cookie 
+	      $.ajax({
+		    url:"?m=Product&a=productSetcookie",
+		    data:"pid="+id+"&num="+num+"&type="+type,
+		    dataType:"text",
+		    type:'GET',
+		    success:function(re){
+			           $.ajax({
+                                url:"?m=Member&a=isAddress",
+                                dataType:"text",
+                                success:function(re){
+                                      if($.trim(re)=="1"){
+                                            
+                                            location.href="?m=Member&a=order";
+                                      }else{
+
+			                                  location.href="?m=Member&a=receiveInfo";
+                                     }  
+                                }
+                          })     
+		    }
+	      })    	  
+				
+     }else{
+	  location.href="?m=Member&a=login";
+     }
+}
+})
+			      
+	        
+    	      
+        	
+}
+	
+</script>
+<body>
+<div id="main">
+    
+<div class="menu_bg" style="height:2.9em;position:relative;">
+      <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">
+                <span class="sTlh" style="line-height:2.9em;display:block;width:100%">黑米盒子</span>
+          </div>
+      <div class="menu_width " style="position:absolute;left:0;top:0" >
+          <span class="spanlh" onclick="javascript:history.go(-1);" >
+              <img src="__ROOT__/index/Tpl/images/back.gif" width="100%" />
+          </span>
+      </div>
+        
+</div>       
+{{foreach from=$pArr item=v}}  
+<!-- banner图片-->
+<div class="banner">
+      <img src="{{$v.imgban}}" border="0" onclick="fun1({{$v.id}});"/>
+</div>	
+ 
+
+<!--banner end-->
+
+<!-- 小图开始-->  
+  
+<div class="contenti1">
+      <div class="left1"> 
+           
+              <img src="{{$v.img1}}" border="0"/> 
+           
+        </div>
+        <div class="middle1"> 
+           
+              <img src="{{$v.img2}}" border="0"/>
+           
+        </div>
+        <div class="right1"> 
+          
+              <img src="{{$v.img3}}" border="0"/>
+          
+        </div>
+        {{if $v.img4 != ""}}
+        <div class="right1"> 
+          
+              <img src="{{$v.img4}}" border="0"/>
+           
+        </div>
+        {{/if}}
+        {{if $v.img5 != ""}}
+        <div class="right1"> 
+          
+              <img src="{{$v.img5}}" border="0"/>
+          
+        </div>
+        {{/if}}
+  
+  
+</div>
+
+{{/foreach}}
+<div xstyle="width:90%;max-width: 24.5em;height: 3.4em; margin: 0 auto;"><img width="93%" style="margin-top: 1.25em" src="__ROOT__/index/Tpl/images/ok_go.gif" onclick="fun1({{$v.id}})"></div>
+
+
+<!--尾部-->
+{{include file="default/Public/footer.html"}}
+<!--尾部end-->
+</div>	
+<div style="display:none">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

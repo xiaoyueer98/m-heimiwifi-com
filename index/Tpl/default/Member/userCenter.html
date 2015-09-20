@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+$("#logout").click(function(){
+        
+$.ajax({
+      url:"?m=Member&a=loginOut",
+      success:function(re){
+             //alert(re);
+             if($.trim(re)==="0"){
+                     
+                     sys_alert("退出成功！");
+                     $("#queding").click(function(){
+                       
+                           location.reload();
+                         
+                     })
+             }else{
+                     sys_alert("退出失败！");
+              }
+       }
+
+})
+        
+})
+})
+</script>
+<body>
+<div id="main">
+
+<div class="menu_bg" style="height:2.9em;position:relative;">
+     
+      <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">
+              <span class="sTlh" style="line-height:2.9em;display:block;width:100%">个人中心</span>
+      </div>
+      <div class="menu_width " style="position:absolute;left:0;top:0" >
+          <div class="spanlh" onclick="javascript:history.go(-1);" >
+              <img src="__ROOT__/index/Tpl/images/back.gif" width="100%"/>
+          </div>
+      </div>
+
+      
+</div>      
+
+{{if $is_login_tmp}}
+<!-- banner图片 -->
+<div class="user_center_banner">
+      <img src=__ROOT__/index/Tpl/images/background.jpg border="0" id="ban"/>
+   <div class="userTel" >{{$tel}}</div>
+</div>
+{{else}}
+<div class="user_center_banner">
+     <a href='index.php?m=Member&a=login'><span style='font-size:4em;color:#e65a1d;'>立即登录</span></a> 
+</div>
+<!--banner end-->
+{{/if}}
+
+<div class="user_center clear" style="padding-top:1.16em">
+    <a href="?m=Member&a=myWifi"> 
+    <div id="t1" class="clear" style="height:2.92em;margin-left:1.16em;margin-right:1.16em">
+          <div class="leftu">我的黑米WiFi</div>
+          <div class="rightu" style="width: 0.5em;height:0.83em;">
+              <img src="__ROOT__/index/Tpl/images/little.gif" width="100%" />
+          </div>
+    </div>
+    </a>
+
+    <a href="?m=Member&a=orderSearch">
+    <div id="t2" class="clear" style="height:2.92em;margin-left:1.16em;margin-right:1.16em;text-align:center">
+          <div class="leftu">订单查询</div>
+          <div class="rightu" style="width: 0.5em;height:0.83em;">
+              <img src="__ROOT__/index/Tpl/images/little.gif" width="100%" />
+          </div> 
+    
+    </div>
+    </a>
+    <a href="?m=Member&a=cardLog">
+    <div id="t3"class="clear" style="height:2.92em;margin-left:1.16em;margin-right:1.16em;">
+          <div class="leftu">充值记录</div>
+          <div class="rightu" style="width: 0.5em;height:0.83em;"><img src="__ROOT__/index/Tpl/images/little.gif" width="100%" /></div> 
+    </div>
+    </a>
+</div>
+{{if $is_login_tmp}}
+<div>
+  	<img width="93%" style="margin-top: 75px" src="__ROOT__/index/Tpl/images/goout.gif" id="logout">
+</div>
+{{else}}
+{{/if}}
+
+
+
+</div>
+<!--尾部-->
+{{include file="default/Public/footer.html"}}
+<!--尾部end-->
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

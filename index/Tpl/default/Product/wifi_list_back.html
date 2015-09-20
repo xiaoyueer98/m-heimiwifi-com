@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=0.5, maximum-scale=1.0, user-scalable=1" name="viewport" />  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>WiFi随身宝|黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+</script>
+
+<body>
+<div id="main">       
+  
+<div class="menu_bg" style="height:86px;position:relative;">
+      
+      <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">
+          <p>WiFi随身宝</p>
+      </div>
+     <div class="menu_width " style="position:absolute;left:0;top:0" >
+          <span onclick="javascript:history.go(-1);" style="float:left;text-decoration:none;font-size:30px;margin-left:5%;">
+              <img src="__ROOT__/index/Tpl/images/back.gif">
+          </span>
+      </div>
+</div>   
+<!-- banner图片-->
+<div class="banner">
+      
+      <img src=__ROOT__/index/Tpl/images/yjlist.jpg border="0"/>
+       
+</div>
+
+<!--banner end-->
+
+<!-- 充值卡列表开始-->
+{{foreach from=$product item=v}}
+<a href="index.php?m=Product&a=detail_buy&id={{$v.id}}">
+<div class="card clear">
+      <div class="tu">
+          <img src={{$v.thumbimg}}>
+      </div>	
+      <div class="desc" style="margin:0xp;padding:0px;margin-top:30px;line-height:50px;">
+              <div style="font-size:26px;color:#e65a1d;margin-right:0;">{{$v.title}}</div>
+              <div style="color:#E65A1D;margin-left:0;">价格：{{if $v.isDiscount==1}}<font style="text-decoration:line-through;">{{$v.price}}&nbsp;元</font>&nbsp;{{/if}}&nbsp;{{$v.price-$v.discount}}元</div>
+      </div>
+</div>
+</a>
+{{/foreach}}
+  
+<!-- wifi列表end-->  
+
+
+</div>
+<!--footer-->
+{{include file="default/Public/footer.html"}}
+<!--footer end-->
+<div style="display:none">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

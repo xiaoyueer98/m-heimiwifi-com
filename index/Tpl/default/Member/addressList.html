@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/heimilogo.png" type="image/x-icon">
+</head>
+
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+function  fun1(id){
+ 	    $.ajax({
+		    	  
+            url:"?m=Member&a=addressSetcookie",
+			      data:"addressId="+id,
+			      dataType:"text",
+			      type:'GET',
+			      success:function(re){
+	                location.href="?m=Member&a=payMethod";
+			      }
+		  })    	   
+    
+}
+
+function  fun2(id){
+	   
+      location.href="?m=Member&a=addressUpd&id="+id;
+}
+
+function fun3(id){
+	   
+      location.href="?m=Member&a=addressDel&id="+id;
+}
+
+$(document).ready(function(){
+       	   
+      $("#add").click(function(){
+    	   
+    	      location.href="?m=Member&a=addressAdd";
+      })
+      
+       
+})
+</script>
+
+<body>
+<div id="main">
+    
+<div class="menu_bg ">
+      <div class="menu_width ">黑米WIFI</div>
+</div>  
+<center>
+
+<table class="addr_list">
+  <tr>
+    <td colspan="3">
+      <h2 align="center">收货地址</h2>
+    </td>
+  </tr>
+  {{foreach from="$addrArr" item=v}}
+  <tr>
+    <td>用户名:</td>
+    <td colspan="2">{{$v.name}}</td>
+  </tr>
+  <tr>
+    <td>地址:</td>
+    <td colspan="2">{{$v.province}}{{$v.city}}{{$v.town}}{{$v.detail}}</td>
+  </tr> 
+  <tr>
+    <td>邮政编码:</td>
+    <td colspan="2">{{$v.mailCode}}</td>
+  </tr>
+  <tr>
+    <td>电话:</td>
+    <td colspan="2">{{$v.tel}}</td>
+  </tr>
+  <tr>  
+    <td>
+      <input type="button" value="确定" id="ok" name="{{$v.id}}"  onclick="fun1(this.name);">
+    </td>
+    <td>
+      <input type="button" value="修改" id="upd" name="{{$v.id}}"  onclick="fun2(this.name);">
+    </td>
+    <td>
+      <input type="button" value="删除" id="del" name="{{$v.id}}"  onclick="fun3(this.name);">
+    </td>
+      
+  </tr>
+  {{/foreach}}
+</table>
+
+<table>
+  <tr>
+    <td>
+      <input type="button" value="使用新地址" id="add">
+    </td>
+  </tr>
+</table>
+
+</center>
+<!--footer-->
+{{include file="default/Public/footer.html"}}
+<!--footer end-->
+</div>
+<body>
+</html>

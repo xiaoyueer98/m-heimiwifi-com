@@ -1,0 +1,642 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+var yhqPrice={{$yhqPrice}};  
+var yhq="{{$yhq}}"; 
+//priceReal=parseInt({{$pArr.price}})-parseInt({{$pArr.discount}});
+priceNew=parseInt({{$pArr.price}})-parseInt({{$pArr.discount}})-parseInt(yhqPrice);
+if(priceNew<0){
+     priceNew=0;
+}
+var CCID=$.trim("{{$CCID}}");
+var reUpd=false;
+var payType={{$payType}};
+var priceNew;
+var re3=false;
+$(document).ready(function(){
+
+$.ajax({
+    
+       url:"?m=Member&a=isWeiXin",
+       dataType:"text",
+       success:function(re){
+            if($.trim(re)=="1"){
+                 $(".pay_div1").css("display","none");
+                 $("#pay2")[0].src="__ROOT__/index/Tpl/images/checked.png";
+                 payType=2;
+                 $("form").attr("action","?m=Payment&a=dotenpay");
+            }
+       }
+    
+})    
+        
+//判断优惠券页传来的信息，确定页面中绑定信息和支付方式的默认值
+if(payType !="1"){
+    
+      if($("#pay2")[0].src.indexOf("__ROOT__/index/Tpl/images/wchecked.png")) {
+      
+            $("#pay2")[0].src="__ROOT__/index/Tpl/images/checked.png";
+            $("#pay1")[0].src="__ROOT__/index/Tpl/images/wchecked.png";
+            payType=2;
+            $("form").attr("action","?m=Payment&a=dotenpay");
+      }      
+      
+}
+//给页面中的价格信息附上最新值
+$("#priceNew").val(priceNew); 
+$("#priceNew_see").text(priceNew); 
+$("#totalprice").text(priceNew); 
+//支付方式的切换
+$("#pay1").click(function(){
+      if($("#pay1")[0].src.indexOf("__ROOT__/index/Tpl/images/wchecked.png")) {
+      
+            $("#pay1")[0].src="__ROOT__/index/Tpl/images/checked.png";
+            $("#pay2")[0].src="__ROOT__/index/Tpl/images/wchecked.png";
+            payType=1;
+            $("form").attr("action","?m=Pay&a=doalipay");
+      } 
+})
+$("#pay2").click(function(){
+    
+      if($("#pay2")[0].src.indexOf("__ROOT__/index/Tpl/images/wchecked.png")) {
+      
+            $("#pay2")[0].src="__ROOT__/index/Tpl/images/checked.png";
+            $("#pay1")[0].src="__ROOT__/index/Tpl/images/wchecked.png";
+            payType=2;
+            $("form").attr("action","?m=Payment&a=dotenpay");
+      } 
+})
+//点击提交订单按钮
+$("#orderBtn").click(function(){
+      //sys_alert("请等待开售");  
+	  
+	  
+	   $("#orderBtn").unbind("click");  
+      
+      if({{$pArr.store}} <= 0){
+      
+            sys_alert("对不起，该商品已缺货");
+            return;
+      } 
+      if(CCID==""){
+	         add=$.trim($("#add").val());
+	   }else{
+	         add=$.trim(CCID);      
+	   }  
+      reg = /^\w{11}$/;
+      //alert(reg.test($.trim(add)));
+      if(add==""){
+            re3=false;
+            $("#add").val(tip3);
+            add=$.trim($("#add").val()); 
+      }else if(!reg.test($.trim(add))){
+            re3=false;
+            sys_alert("设备号不符合规则");
+
+      }else{
+
+            $.ajax({
+	          url:"index.php?m=Member&a=isHard",
+	          data:"add="+add,
+	          dataType:"text",
+	          type:'GET',
+	          success:function(re){
+		        
+                   if($.trim(re)==="0"){
+			                  
+                          sys_alert("设备号不存在");
+		                   re3=false;
+                                            
+		             }else{	
+    	                   re3=true;
+                          CCID=$.trim(add); 
+  ///////////////////////////////////////////
+						     $.ajax({
+							 	  
+								    url:"index.php?m=Member&a=simhardType",
+								    data:"CCID="+CCID,
+								    dataType:"json",
+								    type:"POST",
+								    success:function(re){
+								    	
+								    	     if(re.error > 0){
+								    	    	 
+								    	    	 sys_alert(re.msg);
+								    	    	 return;
+								    	     }else{
+								    	    	 
+								    	    	 //referer=$("#referer").val();
+								    	         price={{$pArr.price}};//yhqPrice
+								    	         discount={{$pArr.discount}};
+								    	         isDiscount={{$pArr.isDiscount}};
+								    	         orderId={{$orderId}};
+								    	         title=$("#title").text();
+								    	         $.ajax({
+								    	             
+								    	               url:"?m=Member&a=cardOrderInsert",
+								    	               data:"CCID="+CCID+"&price="+price+"&yhqPrice="+yhqPrice+"&title="+title+"&payType="+payType+"&orderId="+orderId+"&discount="+discount+"&isDiscount="+isDiscount+"&yhq="+yhq,
+								    	               dataType:"text",
+								    	               type:"GET",
+								    	               success:function(re){
+								    	                    if($.trim(re)==="1"){
+								    	                           
+								    	                          if(yhqPrice!=0){
+								    	                              // $.ajax({
+								    	                                   
+								    	                              //       url:"?m=Member&a=yhqStatus",
+								    	                              //       data:"yhq="+yhq,
+								    	                              //       dataType:"text",
+								    	                              //       type:"GET",
+								    	                              //       success:function(re){
+								    	                                           if(parseInt(priceNew)==0){
+								    	                                                 if({{$pArr.store}} >0){   
+								    	                                                     $.ajax({
+								    	                                                         url:"?m=Member&a=cardBuyAjax",
+								    	                                                         data:"k="+orderId+"&p="+"{{$pArr.id}}",
+								    	                                                         type:"POST",
+								    	                                                         dataType:"text",
+								    	                                                         success:function(re){
+								    	                                                               if($.trim(re)==="1"){
+								    	                                                                     location.href="?m=Member&a=changeOk";
+								    	                                                               }else{
+								    	                                                                     location.href="?m=Member&a=changeFail";
+								    	                                                               }
+								    	                                                         }
+								    	                                                      })
+								    	                                                   }else{
+								    	                                                      sys_alert("对不去，该商品已缺货");
+								    	                                                   }
+								    	                                           }else{     
+
+								    	                                                   if({{$pArr.store}} >0 ){
+								    	                                                         //提交表单
+								    	                                                         $("#form")[0].submit();
+								    	                                                   }else{
+								    	                                                        sys_alert("对不起，该商品已缺货");
+								    	                                                   }
+								    	                                           }
+								    	                                    //  } 
+								    	                               //  })
+								    	                          
+								    	                           }else{
+								    	                           
+								    	                                 if(price<=0){
+								    	                                       if({{$pArr.store}} >0){    
+								    	                                           $.ajax({
+								    	                                              url:"?m=Member&a=cardBuyAjax",
+								    	                                              data:"k="+orderId+"&p="+{{$pArr.id}},
+								    	                                              type:"POST",
+								    	                                              dataType:"text",
+								    	                                              success:function(re){
+								    	                                                  if($.trim(re)==="1"){
+								    	                                                        location.href="?m=Member&a=changeOk";
+								    	                                                  }else{
+								    	                                                        location.href="?m=Member&a=changeFail";
+								    	                                                  }
+								    	                                              }
+								    	                                           })
+								    	                                       }else{
+								    	                                           sys_alert("对不起，该商品已缺货");
+								    	                                       }
+								    	                                 }else{
+								    	                                       if({{$pArr.store}} >0 ){
+								    	                                             //提交表单
+								    	                                             $("#form")[0].submit();
+								    	                                       }else{
+								    	                                             sys_alert("对不起，该商品已缺货");
+								    	                                       }
+								    	                                 }      
+								    	                           }
+								    	                          
+								    	         
+								    	                     }else{
+								    	                           yhq="00000000";
+								    	                           yhqPrice=0;
+								    	                           
+								    	                           sys_alert("订单提交失败");
+								    	                           $("#queding").click(function(){
+								    	                                 location.reload(); 
+								    	                              })
+								    	                     }
+
+
+								    	              }
+								    	       })
+								    	     }
+								    }
+							    })
+     
+     
+
+
+                                /////////////////////////////////////////////////
+	                }
+								 
+                  }
+             })
+
+      }
+
+
+     
+
+})
+//判断是否登录、是否绑定确定页面绑定栏的显示
+$.ajax({
+      url:"?m=Member&a=isLogin",
+      success:function(re){
+            if($.trim(re)==="1"){
+
+                  $.ajax({
+                         url:"?m=Member&a=isBd",
+                         dataType:"text",
+                         success:function(re){
+            
+                               if($.trim(re)==="0"){
+                                     re3=false;
+                                     $(".order_ybd").css("display","none");
+                                     $(".order_wbd").css("display","block");
+                    
+                               }else{
+                                     re3=true;
+                                     $(".order_ybd").css("display","block");
+                                     $(".order_wbd").css("display","none");
+                                     arr=re.split(",");
+                                     name=arr[0];
+                                     CCID=$.trim(arr[1]);
+                                     re1=true;
+                                     $(".nameValue").text(name); 
+                                     $(".sp2").text(CCID); 
+                               }
+                        }
+       
+                  })
+           }else{
+                  $(".order_ybd").css("display","none");
+                  $(".order_wbd").css("display","block");
+                  $("#bdnow").css("display","none");
+                  $("#card_order_tip").html("请输入要充值的设备号");
+           }
+     }
+})
+//当需要输入绑定设备号时，对绑定设备号的判断
+var re3=false;
+var tip3="请输入要充值的设备号";
+if($("#add").val()==""){
+      $("#add").val(tip3);
+      re3=false;
+}
+
+$("#add").focus(function(){
+      
+      add=$("#add").val(); 
+      if(add==tip3){ 
+            $("#add").val("");
+            add=$("#add").val();
+            re3=false;
+      }
+})
+$("#add").blur(function(){
+           reg=/^\w{11}$/; 
+           add=$.trim($("#add").val());
+           if(add==""){
+                re3=false;
+                $("#add").val(tip3);
+           }else if(!reg.test(add)){
+                re3=false;
+                sys_alert("设备号不符合规则");
+
+           }else{
+
+                $.ajax({
+                url:"index.php?m=Member&a=isHard",
+                data:"add="+add,
+                dataType:"text",
+                type:'GET',
+                success:function(re){
+            
+                          if($.trim(re)==="0"){
+                        
+                                sys_alert("设备号不存在");
+              re3=false;
+                                            
+              }else{                 
+              re3=true;
+                    }
+                 
+                     }
+                 })
+
+           }
+           
+
+      }) 
+
+//点击使用优惠券按钮，跳到使用优惠券页面，并将设备号和绑定方式传过去
+$(".useYhq1").click(function(){
+      CCID=$.trim($("#add").val()); 
+      location.href="index.php?m=Member&a=yhqForm&CCID="+CCID+"&payType="+payType;    
+
+})
+//点击立即绑定
+$("#bdnow").click(function(){
+      
+       if(re3==true){
+              add=$("#add").val();      
+              $.ajax({
+                url:"?m=Member&a=bdMember",
+                data:"CCID="+add,
+                dataType:"text",
+                type:"GET",
+                success:function(re){
+                  if($.trim(re)==="1"){
+                              
+                    sys_alert("绑定成功");
+                    $("#queding").click(function(){
+                        location.reload();
+                        })
+                  }else{
+                    sys_alert("绑定失败"); 
+                  }
+
+
+                }
+
+              })
+       }
+})
+     
+$("#upd").click(function(){
+      $(".zzc").css("display","block");    
+      $(".order_upd").css("display","block");    
+})
+
+$("#cancel").click(function(){
+      $("#updIn").val("");
+      $(".zzc").css("display","none"); 
+      $(".order_upd").css("display","none");
+})
+$("#cancel_x").click(function(){
+      $("#updIn").val("");
+      $(".zzc").css("display","none"); 
+      $(".order_upd").css("display","none");
+})
+$("#updIn").blur(function(){
+      reg=/^\w{11}$/; 
+      hard_upd=$("#updIn").val();
+      if(hard_upd==""){
+            reUpd=false;
+      }else if(!reg.test(hard_upd)){
+            reUpd=false;
+            sys_alert("设备号不符合规则");
+
+      }else{
+
+            $.ajax({
+	          url:"index.php?m=Member&a=isHard",
+	          data:"add="+hard_upd,
+	          dataType:"text",
+	          type:'GET',
+	          success:function(re){
+		        
+                        if($.trim(re)==="0"){
+			                  
+                            sys_alert("设备号不存在");
+			      reUpd=false;
+                                            
+		        }else{		     
+			      reUpd=true;
+	                }
+								 
+                  }
+           })
+
+      }
+           
+
+}) 
+
+$("#bdupd").click(function(){
+          
+      if(reUpd==true){
+            CCID=$.trim($("#updIn").val());
+            $.ajax({
+                   
+                   url:"?m=Member&a=bdMember",
+                   data:"CCID="+CCID,
+                   dataType:"text",
+                   type:"GET",
+                   success:function(re){
+                         if($.trim(re)==="1"){
+                              
+                               sys_alert("更改成功");
+                               $("#queding").click(function(){
+                                     location.reload();
+                                    }) 
+                         }else{
+                               sys_alert("更改失败"); 
+                         }
+
+
+                   }
+
+           })
+            
+      }  
+})
+
+})
+
+$("#add").blur(function(){
+//function  add(){     
+      add=$("#add").val();
+      reg = /^\w{11}$/;
+        
+      if(add==""){
+            re3=false;
+            $("#add").val(tip3);
+            add=$("#add").val(); 
+      }else if(!reg.test(add)){
+            re3=false;
+            sys_alert("设备号不符合规则");
+
+      }else{
+
+            $.ajax({
+	          url:"index.php?m=Member&a=isHard",
+	          data:"add="+add,
+	          dataType:"text",
+	          type:'GET',
+	          success:function(re){
+		        
+                        if($.trim(re)==="0"){
+			                  
+                              sys_alert("设备号不存在");
+			         re3=false;
+                                            
+		        }else{		     
+			         re3=true;
+                              CCID=$.trim(add);
+                              $("#bdnow").css("background","blue");
+	                }
+								 
+                  }
+             })
+
+      }
+
+})
+//}
+</script>
+<body>
+<div id="main_order">
+    <input type="hidden" value="{{$referer}}" id="referer">  
+<div class="menu_bg ">
+      <div class="menu_width ">
+          <span class="spanlh" onclick="javascript:history.go(-1);" >
+              <img src="__ROOT__/index/Tpl/images/back.gif" width="100%"/>
+          </span>
+          <span class="sTlh"  >确认订单</span>
+          {{if $is_login_tmp}}
+          <div class="sTHlh" ><a href="index.php?m=Member&a=userCenter"><img width="100%" src="__ROOT__/index/Tpl/images/me.gif" /></a></div>
+        {{else}}
+        {{/if}}
+      </div>
+</div>
+      
+<center>
+<div class="order_ybd clear">
+      <div class="left0" style="width: 70%">
+            <div class="Name clear">
+                  <div class="name">用户名:</div>
+                  <div class="nameValue"></div>
+            </div>
+            <div class="hard_info">
+                  <span class="sp1">设备号:</span>
+                  <span class="sp2"></span> 
+            </div>
+      </div>
+      <div class="right00" style="width:1.17em;height:1.1em;margin-right: 5%">
+          <img src="__ROOT__/index/Tpl/images/wifi_edit.gif" id="upd" width="100%" style="margin-top:0.3em;" />
+      </div>
+</div>
+<div class="order_wbd clear">
+      <div class="left00" style="width: 70%">
+            <div>
+                 <div class="tip" id="card_order_tip">建议绑定设备号，方便充值</div>
+            </div>
+            <div class="add_info">
+                 <input type="text" style="border: 1px solid #e5e5e5;width: 90%" value="{{$CCID}}" id="add" >
+            </div>
+      </div>
+      <div class="right00" style="width: 29%">
+            <img src="__ROOT__/index/Tpl/images/lijibangding.gif" style="height: 50px" id="bdnow">
+      </div>
+</div>
+<div class="useYhq1">
+    <div class="ltu"><img width="100%" src="__ROOT__/index/Tpl/images/yhq.gif" /></div> 
+      <div class="mzi">使用代金券</div> 
+      <div class="rjt"><img width="100%" src="__ROOT__/index/Tpl/images/little.gif" /></div> 
+</div>
+<div class="table_order">
+<form action="?m=Pay&a=doalipay" method="post" id="form">
+<!--<div class="pInfo_title">商品信息</div>-->
+<div class="title1 clear" style="margin-bottom: 1.25em;height: 4em;">
+ 	<div class="leftt">
+       <img style="margin: 0.4em" width="100%" src="{{$pArr.imgthumb}}" />
+    </div>
+	 <div class="desc">
+              <h2>{{$pArr.title}}</h2>
+             
+              <div>价格：￥{{$pArr.price-$pArr.discount}}&nbsp;元</div>
+             
+      </div>
+   <input type="hidden" name="trade_no" value="{{$orderId}}"><!--订单号-->
+         <input type="hidden" name="ordsubject" value="{{$pArr.title}}"><!--订单名称-->
+         <input type="hidden" name="ordbody" value="{{$pArr.des}}"><!--订单描述-->
+         <input type="hidden" name="ordtotal_fee" value="{{$pArr.price-$pArr.discount}}" id="priceNew"><!--总金额-->
+         <input type="hidden" name="ordshow_url" value="http://m.heimiwifi.com/index.php?m=Product&a=card_detail&id={{$pArr.id}}"><!--商品展示url-->
+  </div>
+</div>
+
+<div class="card_pay">
+      <div class="cp_title">选择支付方式</div>
+      <div class="pay_div clear  pay_div1" style="border-bottom:1px solid #e5e5e5;">
+            <div class="pay_left">
+                  <img src="__ROOT__/index/Tpl/images/checked.png" id="pay1" width="100%" />
+            </div>
+            <div class="pay_middle">
+                  <img src="__ROOT__/index/Tpl/images/alipayicon.png" width="100%" /> 
+            </div>
+            <div class="pay_right clear">
+                  <span class="p1">支付宝在线支付</span>
+                  <!--<p class="p2">支持信用卡、储蓄卡快捷支付及支付宝</p>-->
+            </div>
+      </div>
+      <div class="pay_div pay_div2 clear">
+            <div class="pay_left">
+                  <img src="__ROOT__/index/Tpl/images/wchecked.png" id="pay2" width="100%" />
+            </div>
+            <div class="pay_middle">
+                  <img src="__ROOT__/index/Tpl/images/canfutongicon.png" width="100%" /> 
+            </div>
+            <div class="pay_right">
+                  <span class="p1">财付通在线支付</span>
+                 <!--<p class="p2">支持信用卡、储蓄卡快捷支付及支付宝</p>-->
+            </div>
+      </div>
+</div>
+
+<div class="sureOrderBtn">
+		<div class="sure_left">
+			     <h2 style="color:#e54a3e;">应付金额：￥<span id="totalprice">{{$pArr.price-$pArr.discount}}</span>&nbsp;元</h2>
+		</div>
+		<div class="sure_right">
+			  <img style="line-height:140px" width="100%" src="__ROOT__/index/Tpl/images/ok.gif" id="orderBtn" />
+		</div>
+      
+</div>
+</form>
+</div>
+</center>
+
+</div>
+
+<!--尾部-->
+{{include file="default/Public/footer.html"}}
+<!--尾部end-->
+</div>
+<div class="zzc"></div>
+<div class="order_upd" style="background-image: url('__ROOT__/index/Tpl/images/alert_bg.png');">
+      <div>
+          <div class="tip2" style="width: 0.77em;height: 0.77em;"><img src="__ROOT__/index/Tpl/images/alert_close.gif" width="100%" alt="" id="cancel_x"/></div>
+            <div class="tip">请输入要绑定的设备号</div>
+      </div>
+      <div class="upd_info">
+            <input type="text" value="" id="updIn">
+      </div>
+      <div class="btn" style="text-align:center;width: 3.55em;height: 1.33em;margin: 0 auto;">
+      		<!--<img src="__ROOT__/index/Tpl/images/alert_cancel.gif" alt=""  id="cancel"/>-->
+      		<img src="__ROOT__/index/Tpl/images/alert_bd.gif" alt="" width="100%" id="bdupd"/>
+      </div>
+</div>
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

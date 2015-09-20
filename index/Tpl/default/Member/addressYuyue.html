@@ -1,0 +1,513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/heimilogo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+var re1=false;
+var re2=false;
+var re3=false;
+var re4=false;
+var re5=false;
+var re6=false;
+var re7=false;
+var re8=true;
+function showxy(sh){
+    if(sh==0){
+        $('#alertxy').hide();
+    }else{
+        $('#alertxy').show();
+    }
+}
+$(document).ready(function(){
+    $("#xy").click(function(){
+        var ck=$('#xy').val();
+        if(ck==0){
+            ck=1;
+            re8=true;
+        }else{
+            ck=0;
+            re8=false;
+        }
+        $('#xy').val(ck);
+    })
+    
+      $("#verify").css("color","#909090");
+      tipVerify="请输入验证码";
+      $("#verify").val(tipVerify);
+      $("#verify").focus(function(){
+        
+          if($("#verify").val()==tipVerify){
+              $("#verify").val("");
+              $("#verify").css("color","#61605e");
+          }
+       })
+      $("#verify").blur(function(){
+           
+        var verify=$("#verify").val();
+        if(verify==""){
+                $("#verify").val(tipVerify); 
+                $("#verify").css("color","#909090");
+          }else{
+              $.ajax({
+                    url:"index.php?m=Member&a=reserveAjax",
+                    data:"verify="+verify,
+                    dataType:"text",
+                    type:'GET',
+                    success:function(re){
+                        if($.trim(re)=="1"){
+                              re2=true;
+                        }else{         
+                              re2=false;
+                              sys_alert("验证码不正确");
+                        }
+               
+                    }  
+              })
+         }
+     })
+      
+      var tipName="请输入姓名";
+      $("#name").css("color","#909090");
+      $("#name").val(tipName);
+      $("#name").focus(function(){
+    	  
+    	    if($("#name").val()==tipName){
+    	    	$("#name").val("");
+                $("#name").css("color","#61605e");
+    	    }
+       })
+      $("#name").blur(function(){
+           reg=/^\w+|[\u4e00-\u9fa5]|[\u4e00-\u9fa5]\w+$/;
+       	var name=$("#name").val();
+       	if(name==""){
+                re1=false;		
+       	      $("#name").val(tipName); 
+                $("#name").css("color","#909090");
+         	}else if(!reg.test(name)){
+         		  re1=false;		
+         		 sys_alert("姓名不合法");
+         	}else{
+         		
+         		  re1=true;
+         	}
+           
+      })
+      var tipTel="请输入电话";
+      $("#tel").val(tipTel);
+      $("#tel").css("color","#909090");
+      $("#tel").focus(function(){
+    	  
+    	    if($("#tel").val()==tipTel){
+    	    	    $("#tel").val("");
+                    $("#tel").css("color","#61605e");
+    	    }
+      })      
+      $("#tel").blur(function(){
+           reg=/^\d{11,12}$/;
+       	   var tel=$("#tel").val();
+       	   if(tel==""){
+                re3=false;		
+       	        $("#tel").val(tipTel); 
+                $("#tel").css("color","#909090");
+         	 }else if(!reg.test(tel)){
+         		    re3=false;		
+         		    sys_alert("号码不符合规则");
+         	 }else{
+         		
+         		    re3=true;
+         	 }
+           
+      })
+      var tipDetail="请填写详细住宅地址";
+      $("#detail").val(tipDetail);
+      $("#detail").css("color","#909090");
+      $("#detail").focus(function(){
+    	  
+    	    if($("#detail").val()==tipDetail){
+    	    	    $("#detail").val("");
+                    $("detail").css("color","#61605e");
+    	    }
+       })
+      $("#detail").blur(function(){
+          
+       	var detail=$("#detail").val();
+       	if(detail==""){
+             re6=false;		
+       	     $("#detail").val(tipDetail); 
+             $("#detail").css("color","#909090");
+        }else{
+         		
+         		  re6=true;
+        }
+           
+      })
+      var tipMailcode="请输入邮编";
+      $("#mailcode").val(tipMailcode);
+      $("#mailcode").css("color","#909090");
+      $("#mailcode").focus(function(){
+    	  
+    	    if($("#mailcode").val()==tipMailcode){
+    	    	  $("#mailcode").val("");
+                  $("#mailcode").css("color","#61605e");
+    	    }
+       })
+      $("#mailcode").blur(function(){
+        reg=/^\d{6}$/;
+       	var mailcode=$("#mailcode").val();
+       	if(mailcode==""){
+              re7=false;		
+       	      $("#mailcode").val(tipMailcode); 
+              $("#mailcode").css("color","#909090");
+         	}else if(!reg.test(mailcode)){
+         		  re7=false;		
+         		  sys_alert("邮编不合法");
+         	}else{
+         		
+         		  re7=true;
+         	}
+           
+      })
+//      $("#province").change();
+      $("#province").change(function(){
+            $("#province").find("option").each(function(){
+                  if(this.selected == true){
+                	      if(this.value!="请选择省"){
+         	                    re4=true;
+                                $("#province").css("color","#61605e");
+                        }else{
+                 	             re4=false;
+                                 $("#province").css("color","#909090");
+                            }
+                        $("#city").empty();
+                        if($("#province").val() == "110000"){
+                              $("#city").append("<option value='110000'>北京市</option>");
+                              $("#area").empty();
+                              $.ajax({
+                                  url:"?m=Member&a=threeAjaxArea",
+                                  data:"fid="+"110100  or father=110200",
+                                  dataType:"text",
+                                  type:"GET",
+                                  success:function(re){
+                                        re5 = true;
+                                        $("#area").append(re);
+                                        }
+                                  })
+                        }else if($("#province").val() == "120000"){
+                              $("#city").append("<option value='120000'>天津市</option>");
+                              $("#area").empty();
+                              $.ajax({
+                                  url:"?m=Member&a=threeAjaxArea",
+                                  data:"fid="+"120100  or father=120200",
+                                  dataType:"text",
+                                  type:"GET",
+                                  success:function(re){
+                                	     re5 = true;
+                                        $("#area").append(re);
+
+                                        }
+                                  })
+                        }else if($("#province").val() == "310000"){
+                              $("#city").append("<option value='310000'>上海市</option>");    
+                              $("#area").empty();
+                              $.ajax({
+                                  url:"?m=Member&a=threeAjaxArea",
+                                  data:"fid="+"310100  or father=310200",
+                                  dataType:"text",
+                                  type:"GET",
+                                  success:function(re){
+                                	     re5 = true;
+                                        $("#area").append(re);
+
+                                        }
+                                  })
+                        }else if($("#province").val() == "500000"){
+                              $("#city").append("<option value='500000'>重庆市</option>");      
+                              $("#area").empty();
+                              $.ajax({
+                                  url:"?m=Member&a=threeAjaxArea",
+                                  data:"fid="+"500100  or father=500200",
+                                  dataType:"text",
+                                  type:"GET",
+                                  success:function(re){
+                                	     re5 = true;
+                                        $("#area").append(re);
+
+                                        }
+                                  })
+                        }else{
+                        $("#city").append("<option>请选择市</option>");
+                        $("#area").empty();
+                        $("#area").append("<option>请选择地区</option>");
+	                        $.ajax({
+	                              url:"?m=Member&a=threeAjax",
+	                              data:"fid="+this.value,
+	                              dataType:"text",
+	                              type:"GET",
+	                              success:function(re){
+	                        
+	                                    $("#city").append(re);
+	
+	                              }
+	                        })
+                        }
+                  }
+            })
+            if(!re4){
+    			  
+		  sys_alert("请选择省");
+	    }
+      })
+      $("#city").change(function(){
+    	  
+          if($("#province").val() == "110000"){
+        	     $("#city").empty();
+                $("#city").append("<option value='110000'>北京市</option>");
+                $("#area").empty();
+                $.ajax({
+                    url:"?m=Member&a=threeAjaxArea",
+                    data:"fid="+"110100  or father=110200",
+                    dataType:"text",
+                    type:"GET",
+                    success:function(re){
+                          re5 = true;
+                          $("#area").append(re);
+
+                          }
+                    })
+                   
+          }else if($("#province").val() == "120000"){
+        	     $("#city").empty();
+                $("#city").append("<option value='120000'>天津市</option>");
+                $("#area").empty();
+                $.ajax({
+                    url:"?m=Member&a=threeAjaxArea",
+                    data:"fid="+"120100  or father=120200",
+                    dataType:"text",
+                    type:"GET",
+                    success:function(re){
+                  	     re5 = true;
+                          $("#area").append(re);
+
+                          }
+                    })
+          }else if($("#province").val() == "310000"){
+        	     $("#city").empty();
+                $("#city").append("<option value='310000'>上海市</option>");    
+                $("#area").empty();
+                $.ajax({
+                    url:"?m=Member&a=threeAjaxArea",
+                    data:"fid="+"310100  or father=310200",
+                    dataType:"text",
+                    type:"GET",
+                    success:function(re){
+                  	     re5 = true;
+                          $("#area").append(re);
+
+                          }
+                    })
+          }else if($("#province").val() == "500000"){
+        	      $("#city").empty();
+                $("#city").append("<option value='500000'>重庆市</option>");      
+                $("#area").empty();
+                $.ajax({
+                    url:"?m=Member&a=threeAjaxArea",
+                    data:"fid="+"500100  or father=500200",
+                    dataType:"text",
+                    type:"GET",
+                    success:function(re){
+                  	     re5 = true;
+                          $("#area").append(re);
+
+                          }
+                    })
+          }else{
+            $("#city").find("option").each(function(){
+                  if(this.selected == true){
+                	if(this.value!="请选择市"){
+                	        re5=true;
+                         $("#city").css("color","#61605e");
+                        }else{
+                             re5=false;
+                             $("#city").css("color","#909090");
+                            }
+                        $("#area").empty();
+                       
+                        $.ajax({
+                              url:"?m=Member&a=threeAjaxArea",
+                              data:"fid="+this.value,
+                              dataType:"text",
+                              type:"GET",
+                              success:function(re){
+
+                                    $("#area").append(re);
+
+                              }
+                        })
+                  }
+            })
+          }
+            if(!re5){
+  			  
+	          sys_alert("请选择市");
+            }
+      })
+      $("#area").change(function(){
+            $("#area").find("option").each(function(){
+                  if(this.selected == true){
+                	      if(this.value!="请选择地区"){
+                               $("#area").css("color","#61605e");
+                        }else{
+                               $("#area").css("color","#909090");
+                        }
+                  }
+             })
+      })      
+      $("#addSub").click(function(){
+//          alert('re1:'+re1);
+//          alert('re2:'+re2);
+//          alert('re3:'+re3);
+//          alert('re4:'+re4);
+//          alert('re5:'+re5);
+//          alert('re6:'+re6);
+//          alert('re7:'+re7);
+//          alert('re8:'+re8);
+    	    if(re1 && re2 && re3 && re4 && re5 && re6 && re7 && re8 ){
+                  $("form")[0].submit();
+    	    }else{
+             alert('用户信息填写不全');
+         }
+      })
+})
+</script>
+<body>
+<div id="main">
+    
+<div class="menu_bg ">
+      <div class="menu_width ">
+      
+          <span class="spanlh" onclick="javascript:history.go(-1);" >
+           <img width="100%" src="__ROOT__/index/Tpl/images/back.gif" />
+        </span>
+        <span  class="sTlh" xstyle="margin-left:5px;">黑米盒子</span>
+        {{if $is_login_tmp}}
+	      <div class="sTHlh" style="float: right;vertical-align: middle;margin-right: 5%"><a href="index.php?m=Member&a=userCenter"><img width="100%" src="__ROOT__/index/Tpl/images/me.gif"></img></a></div>
+        {{else}}
+        {{/if}}
+      </div>
+</div> 
+<div class="add_upd"> 
+<center>
+
+<form method="post" action="?m=Member&a=addressYySave">
+    <input type="hidden" value="1" name="pid" />
+    <input type="hidden" value="1" name="batch" />
+      <div class="info">收货人姓名</div>
+      <input type="text" name="name" id="name" value="{{$addrArr.name}}"/><br/>
+	  <div class="info2">手机号码</div>
+      <input type="text" name="tel" id="tel" value="{{$addrArr.tel}}"/><br/>
+      <div class="info1">收货地址</div>
+      <select name="province" id="province">
+            <option>请选择省</option>
+            {{foreach from=$pArr item=v}}
+            <option value="{{$v.provinceID}}" {{if $v.provinceID == $addrArr.province}} selected="selected" {{/if}}>{{$v.province}}</option>
+            {{/foreach}}
+            </select>
+            <select name="city" id="city">
+            {{foreach from=$cArr item=cv}}
+            <option value="{{$cv.cityID}}" {{if $cv.cityID == $addrArr.city}}selected="selected" {{/if}}>{{$cv.city}}</option>
+            {{/foreach}}
+            </select><br>
+            <select name="area" id="area">
+            {{foreach from=$aArr item=av}}
+            <option value="{{$av.areaID}}" {{if $av.areaID == $addrArr.area}}selected="selected" {{/if}}>{{$av.area}}</option>
+            {{/foreach}}
+      </select><br/> 
+      <input type="text" name="detail" id="detail" value="{{$addrArr.detail}}"/><br/>
+	  <div class="info1">邮政编码</div>
+      <input type="text" style="height:2.58em;width:80%;font-size:1em;color:#909090;" name="mailCode" id="mailcode" value="{{$addrArr.mailCode}}"/><br/>
+      
+      
+      
+      
+      
+        <div class="cardyy clear">
+              <div class="tuyy">
+                  <img src='index/Tpl/upload/512M.jpg' width="100%"/>
+              </div>	
+              <div class="descyy">
+                      <h2>黑米盒子</h2>
+                      <div style="margin-top:-0.3em; margin-bottom:0.55em">价格：0元</div>
+                </div>
+        </div>
+      
+      
+      
+      <div class="yhq"  style="height: 2.4em;margin-bottom: 2.58em;margin-top: 0.91em;">
+           <input type="text"  style="height:2.58em;width:80%;font-size:1em;color:#909090;" id="verify" >
+       </div>
+      <div class="yhq">
+           <img width=40% src="index.php?m=Member&a=verify" style="height:2.3em" onClick="this.src='index.php?m=Member&a=verify&v=Math.random()'">
+       </div>
+      
+      
+      <div class="yhq" style="height: 2.4em;margin-bottom: 2.58em;margin-top: 0.91em;">
+          <input id="xy" checked type="checkbox" value="1" />我已阅读并同意<a href="javascript:showxy(2)" style="color: #e65a1d">《黑米盒子/预购协议》</a>及相关条件
+      </div>
+      
+      
+      
+      
+      
+      
+      <img src="__ROOT__/index/Tpl/images/querentijiao.gif" id="addSub" />
+      <!--<input type="hidden" value="{{$addrArr.id}}" name="id"/>-->
+</form>
+
+</center>
+</div>
+
+    <div id="alertxy" style="display: none;">
+<!--<div id="shadowBgxy" class="zzc_alert" style="height: 2323px; display: block;"></div>-->
+<div id="sys_alert_divxy" style="z-index: 9999; position: fixed; margin: 10%; vertical-align: middle;top:5%;height: 80%;width: 80%; background: #f2f1f1;font-size: 2em;line-height: 1.38em;display: block;background-size: 100%; border: 1px solid #ccc; overflow-y: scroll;">
+<div style="margin-left:-5%;xmargin-top:5%;width:90%; xheight: 100%; text-align: left; color: #909090; padding-left: 0.8em;" xclass="tip">
+    <h3 style="text-align: center;">《黑米盒子/预购协议》</h3>
+
+《黑米盒子/预购协议》（以下简称“本协议”）是您（或称“用户”，指注册、登录、使用、浏览本服务的个人或组织）与黑米公司（以下简称“黑米”）及其运营合作单位（以下简称“合作单位”）之间关于在黑米网站（www.heimiwifi.com，简称本网站)购买黑米盒子所订立的协议。
+黑米在此特别提醒用户认真阅读、充分理解本协议，未成年人应在法定监护人陪同下阅读。
+您点击“已阅读”将视为对本协议的接受，并同意接受本协议各项条款的约束。除非用户接受本协议所有条款，否则用户无权购买黑米盒子。<br/>
+
+用户理解并接受：<br/>
+		1、用户预约过程中所填的预约地址信息，将代表购买黑米盒子的收货地址。<br/>
+		2、用户预约信息成功提交，代表本协议的生效，对双方均有法律效约束力。<br/>
+本协议适用中华人民共和国法律。如果双方发生纠纷，应本着友好的原则协商解决；如协商不成，应向北京市海淀法院提起诉讼。
+若本协议中的某些条款因故无法适用，则本协议的其他条款继续适用且无法适用的条款将会被修改，以便其能够依法适用。<br/>
+</div>
+<div style="margin-top: 1em; width: 3.55em;height:1.33em; margin: 0 auto;">
+<img src="__ROOT__/index/Tpl/images/alert_queding.gif" width="100%" onclick="showxy(0)" />
+</div>
+</div>
+</div>
+
+
+
+<!--footer-->
+{{include file="default/Public/footer.html"}}
+<!--footer end-->
+</div>
+<div style="display:none">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+<body>
+</html>

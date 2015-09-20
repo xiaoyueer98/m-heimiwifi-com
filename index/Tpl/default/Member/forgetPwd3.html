@@ -1,0 +1,144 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+var re1=false;
+var re2=false;
+var pwd="";
+$(document).ready(function(){
+      
+      var tip1="新密码";
+      $("#pwdtxt").val(tip1);
+      $("#pwdtxt").css("color","#909090");
+      $("#pwdtxt").focus(function(){
+            $("#pwdtxt").css("display","none");
+            $("#pwd").css("display","block");
+            $("#pwd").focus();
+            $("#pwd").css("color","#61605e");
+     
+      })
+      $("#pwd").blur(function(){
+     
+            pwd=$("#pwd").val();
+            reg=/^\w{6,20}$/;      //需要改正的正则包含数字字母或字符中的两种
+            if(pwd==""){
+                  $("#pwd").css("display","none");   
+                  $("#pwdtxt").css("display","block");   
+                  $("#pwdtxt").val(tip1);
+                  $("#pwdtxt").css("color","#909090");
+                  re1=false;
+            }else if(!reg.test(pwd)){
+            
+                  re1=false;
+                  sys_alert("密码不合法");   
+           }else{
+                  re1=true;
+           }
+      })
+      var tip2="确认新密码";
+      $("#repwdtxt").val(tip2);
+      $("#repwdtxt").css("color","#909090");
+      $("#repwdtxt").focus(function(){
+            $("#repwdtxt").css("display","none");
+            $("#repwd").css("display","block");
+            $("#repwd").focus();
+            $("#repwd").css("color","#61605e");
+     
+      })
+      $("#repwd").blur(function(){
+     
+            repwd=$("#repwd").val();
+            if(repwd==""){
+                  $("#repwd").css("display","none");   
+                  $("#repwdtxt").css("display","block");   
+                  re2=false;
+            }else if(repwd!=pwd){
+            
+                  re2=false;
+                  sys_alert("密码不相同");   
+           }else{
+                  re2=true;
+           }
+      })
+      $(".btn img").click(function(){
+	  var tel = $("input[name='tel']").val(); 
+	  var repwd = $("#repwd").val();
+	  if(tel){
+		$("#repwd").blur();
+           if(re1 && re2){
+			  $.ajax({
+				url:"index.php?m=Member&a=resetPwd",
+				data:"tel="+tel+"&repwd="+repwd,
+				dataType:"text",
+				type:'POST',
+				success:function(re){//sys_alert(re);
+						  if($.trim(re)!="1")
+						  {
+							  sys_alert(re);  
+							  return false;
+						  }
+						  else
+						  {	 
+							   $("form")[0].submit(); 
+						  }    
+					}
+			  })              
+            }
+	 }else{
+		sys_alert("系统参数错误，请您重新获取验证码");
+		return false;
+	 }       
+   })
+
+})
+</script>
+
+
+<body>
+    
+<div class="menu_bg " style="height:86px;position:relative;">
+     <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">   
+           <p>登录</p>
+      </div>
+      <div class="menu_width " style="position:absolute;left:0;top:0" >
+           <span onclick="javascript:history.go(-1);"  style="float:left;text-decoration:none;font-size:30px;margin-left:5%;">
+                 <img src="__ROOT__/index/Tpl/images/back.gif">
+           </span>
+      </div>
+</div>      
+<form action="?m=Member&a=pwdSave" method="post">
+<div class="pwd3">
+    
+      <div class="title">重设账户密码</div>
+      <div class="tip">请重新设置您的账户密码</div>
+      <input type="hidden" value="{{$tel}}"  name="tel">
+	  <input type="hidden" value="{{$code}}"  name="code">
+      <div class="pwdtxt"><input type="text"  id="pwdtxt" value=""/></div>
+      <div class="pwd"><input type="password" name="pwd" id="pwd" value="" style="display:none;"/></div>
+	   <div class="tip2" >请再次输入密码</div>
+      <div class="repwdtxt"><input type="text"  id="repwdtxt" value=""/></div>
+      <div class="repwd"><input type="password"  id="repwd" value="" style="display:none;"/></div>
+      <div class="btn"><img  style="width:82%" src="__ROOT__/index/Tpl/images/nextjh.gif"></div>
+</div>
+</form>
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>WiFi随身宝|黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+      
+var yhqPrice={{$yhqPrice}};  
+var yhq="{{$yhq}}"; 
+//priceReal=parseInt({{$pArr.price}})-parseInt({{$pArr.discount}});
+var priceNew=parseInt({{$pArr.price}})-parseInt({{$pArr.discount}})-parseInt(yhqPrice);
+if(priceNew<0){
+     priceNew=0;
+}
+
+function  fun2(id){
+	   
+      location.href="?m=Member&a=addressUpd&id="+id;
+}
+
+var payType={{$payType}};
+$(document).ready(function(){
+
+$.ajax({
+    
+       url:"?m=Member&a=isWeiXin",
+       dataType:"text",
+       success:function(re){
+            if($.trim(re)=="1"){
+                 $(".pay_div1").css("display","none");
+                 $("#pay2")[0].src="__ROOT__/index/Tpl/images/checked.png";
+                 payType=2;
+                 $("form").attr("action","?m=Payment&a=dotenpay");
+            }
+       }
+    
+})
+
+if(payType !="1"){
+    
+      if($("#pay2")[0].src.indexOf("__ROOT__/index/Tpl/images/wchecked.png")) {
+      
+            $("#pay2")[0].src="__ROOT__/index/Tpl/images/checked.png";
+            $("#pay1")[0].src="__ROOT__/index/Tpl/images/wchecked.png";
+            payType=2;
+            $("form").attr("action","?m=Payment&a=dotenpay");
+      }      
+      
+}
+$("#priceNew").val(priceNew); 
+$("#priceNew_see").text(priceNew); 
+$("#totalprice").text(priceNew); 
+
+$(".useYhq1").click(function(){
+      CCID=$("#add").val(); 
+      location.href="index.php?m=Member&a=yhqForm"+"&payType="+payType;    
+
+})
+$("#pay1").click(function(){
+      if($("#pay1")[0].src.indexOf("__ROOT__/index/Tpl/images/wchecked.png")) {
+      
+            $("#pay1")[0].src="__ROOT__/index/Tpl/images/checked.png";
+            $("#pay2")[0].src="__ROOT__/index/Tpl/images/wchecked.png";
+            payType=1;
+            $("form").attr("action","?m=Payment&a=doalipay");
+      } 
+})
+$("#pay2").click(function(){
+    
+      if($("#pay2")[0].src.indexOf("__ROOT__/index/Tpl/images/wchecked.png")) {
+      
+            $("#pay2")[0].src="__ROOT__/index/Tpl/images/checked.png";
+            $("#pay1")[0].src="__ROOT__/index/Tpl/images/wchecked.png";
+            payType=2;
+            $("form").attr("action","?m=Payment&a=dotenpay");
+      } 
+})
+$("#orderBtn").click(function(){
+      //sys_alert("请等待开售！");
+      $("#orderBtn").unbind("click");  
+      if({{$pArr.store}} <= 0){
+      
+            sys_alert("对不起，该商品已缺货");
+            return;
+      } 
+      //referer=$("#referer").val();
+      price={{$pArr.price}};//yhqPrice
+      discount={{$pArr.discount}};
+      isDiscount={{$pArr.isDiscount}};
+      orderId={{$orderId}};
+      tel={{$tel}};
+      name='{{$name}}';
+      title='{{$pArr.title}}';
+      other="";
+      $.ajax({
+          
+            url:"?m=Member&a=orderSave",
+            data:"other="+other+"&price="+price+"&yhqPrice="+yhqPrice+"&title="+title+"&payType="+payType+"&orderId="+orderId+"&name="+name+"&tel="+tel+"&discount="+discount+"&isDiscount="+isDiscount+"&yhq="+yhq,
+            dataType:"text",
+            type:"GET",
+            success:function(re){//alert(re);
+                  if($.trim(re)==="1"){
+                        if(yhqPrice!=0){
+                              $.ajax({
+                                
+                                    url:"?m=Member&a=yhqStatus",
+                                    data:"yhq="+yhq,
+                                    dataType:"text",
+                                    type:"GET",
+                                    success:function(re){
+                                         if(priceNew==0){
+                                               if({{$pArr.store}} >0 ){
+                                                      //提交表单
+                                                     $.ajax({
+                                                           url:"?m=Member&a=productBuyAjax",
+                                                           data:"k="+orderId+"&p="+"{{$pArr.id}}",
+                                                           type:"POST",
+                                                           dataType:"text",
+                                                           success:function(re){
+                                                                 if($.trim(re)==="1"){
+                                                                      location.href="?m=Member&a=changeOk";
+                                                                 }else{
+                                                                      location.href="?m=Member&a=changeFail";
+                                                                 }
+                                                           }
+                                                     })
+                                                }else{
+                                                     sys_alert("对不起，该商品已缺货");
+                                                }
+                                         }else{
+                                                if({{$pArr.store}} >0 ){
+                                                      //提交表单
+                                                      $("#form")[0].submit();
+                                                }else{
+                                                      sys_alert("对不起，该商品已缺货");
+                                                }
+                                         }
+                                   }
+                              })
+                        
+                        }else{
+                        
+                              if(price<=0){
+                                    if({{$pArr.store}} >0){ 
+                                          $.ajax({
+                                                url:"?m=Member&a=productBuyAjax",
+                                                data:"k="+orderId+"&p="+"{{$pArr.id}}",
+                                                type:"POST",
+                                                dataType:"text",
+                                                success:function(re){
+                                                      if($.trim(re)==="1"){
+                                                            location.href="?m=Member&a=changeOk";
+                                                      }else{
+                                                            location.href="?m=Member&a=changeFail";
+                                                      }
+                                                }
+                                          })
+                                    }else{
+                                          sys_alert("对不起，该商品已缺货");      
+                                    }
+                              }else{    
+                                    if({{$pArr.store}} > 0 ){
+                                          //提交表单
+                                          $("#form")[0].submit();
+                                    }else{
+                                          sys_alert("对不起，该商品已缺货");
+                                  }
+                              }    
+                       }
+      
+                  }else{
+                       
+                       yhqPrice = 0;
+                       yhq = "00000000";
+                       sys_alert("订单提交失败");
+                       $("#queding").click(function(){
+                               
+                              location.reload();        
+                       })
+                  }
+
+
+            }
+      }) 
+      
+
+})
+})
+</script>
+<body >
+<div id="main_order">
+    
+<div class="menu_bg ">
+      <div class="menu_width ">
+          <span class="spanlh" onclick="javascript:history.go(-1);" >
+              <img width="100%" src="__ROOT__/index/Tpl/images/back.gif" />
+          </span>
+          <span class="sTlh" style="margin-left:0px;">确认订单</span>
+          {{if $is_login_tmp}}
+          <div class="sTHlh" style="float: right;vertical-align: middle;margin-right:5%;"><a href="index.php?m=Member&a=userCenter"><img width="100%" src="__ROOT__/index/Tpl/images/me.gif"></img></a></div>
+        {{else}}
+        {{/if}}
+      </div>
+</div>      
+<center>
+<div class="order_address clear">
+      <div class="left3">
+       		<div class="info">
+               <span class="sp1">收货人:</span>
+               <span class="sp2">{{$name}}</span> 
+               <span class="sp3">{{$tel}}</span>
+            </div>
+          <div style="padding-top: 0.5em;">
+               <span style="font-size: 1em;line-height: 1.3em;width: 70%">{{$addr}}</span>
+            </div>
+      </div>
+      <div class="right3" style="width:1.17em;height:1.1em;margin-right: 5%">
+             <img width="100%" src="__ROOT__/index/Tpl/images/wifi_edit.gif" onclick="fun2({{$addrId}})" />
+      </div>
+</div>
+<div class="useYhq1">
+      <div class="ltu"><img width="100%" src="__ROOT__/index/Tpl/images/yhq.gif"/></div> 
+      <div class="mzi">使用代金券</div> 
+      <div class="rjt"><img width="100%" src="__ROOT__/index/Tpl/images/little.gif"/></div> 
+</div>
+<div class="table_order">
+
+<form action="?m=Pay&a=doalipay" method="post" id="form">
+  
+  <div class="title1 clear">
+    <div class="leftt">
+       <img style="margin: 0.4em" src="{{$pArr.thumbimg}}" class="iconimg" width="100%">
+    </div>
+	 <div class="desc">
+              <h2>{{$pArr.title}}</h2>
+             
+              <div>价格：￥{{$pArr.price-$pArr.discount}}&nbsp;元</div>
+              
+      </div>
+    <input type="hidden" name="trade_no" value="{{$orderId}}"><!--订单号-->
+     
+    <input type="hidden" name="ordsubject" value="WiFi随身宝"><!--订单名称-->
+    <input type="hidden" name="ordbody" value="{{$data}}"><!--订单描述-->
+  </div>
+
+
+  <input type="hidden" name="ordtotal_fee" value="{{$pArr.price-$pArr.discount}}" id="priceNew"><!--总金额-->
+  <input type="hidden" name="ordshow_url" value="http://m.heimiwifi.com/index.php?m=Product&a=detail_buy&id={{$pArr.id}}"><!--商品展示url-->
+ 
+</div>
+
+<div class="card_pay">
+      <div class="cp_title">选择支付方式</div>
+      <div class="pay_div clear pay_div1">
+            <div class="pay_left">
+                  <img width="100%" src="__ROOT__/index/Tpl/images/checked.png" id="pay1">
+            </div>
+            <div class="pay_middle">
+                  <img width="100%" src="__ROOT__/index/Tpl/images/alipayicon.png"> 
+            </div>
+            <div class="pay_right clear pay_div2">
+                  <span class="p1">支付宝在线支付</span>
+                  <!--<p class="p2">支持信用卡、储蓄卡快捷支付及支付宝</p>-->
+            </div>
+      </div>
+      <div class="pay_div clear">
+            <div class="pay_left">
+                  <img width="100%" src="__ROOT__/index/Tpl/images/wchecked.png" id="pay2">
+            </div>
+            <div class="pay_middle">
+                  <img width="100%" src="__ROOT__/index/Tpl/images/canfutongicon.png"> 
+            </div>
+            <div class="pay_right">
+                  <span class="p1">财付通在线支付</span>
+                  <!--<p class="p2">支持信用卡、储蓄卡快捷支付及支付宝</p>-->
+            </div>
+      </div>
+</div>
+
+<div class="sureOrderBtn">
+		<div class="sure_left">
+			     <h2 style="color:#e54a3e;">应付金额：￥<span id="totalprice">{{$pArr.price-$pArr.discount}}</span>&nbsp;元</h2>
+		</div>
+		<div class="sure_right">
+			  <img style="line-height:140px" width="100%" src="__ROOT__/index/Tpl/images/ok.gif" id="orderBtn" >
+		</div>
+      
+</div>
+</form>
+</center>
+
+</div>
+<!--尾部-->
+{{include file="default/Public/footer.html"}}
+<!--尾部end-->
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+
+</body>
+</html>

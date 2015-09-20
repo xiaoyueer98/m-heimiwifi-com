@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet"
+	type="text/css" />
+<link rel="icon" href="__ROOT__/admin/Tpl/images/logo.png"
+	type="image/x-icon">
+</head>
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+$("document").ready(function(){
+ var reUpd=false;       
+      $.ajax({        
+            url:"?m=Member&a=daili",
+            data:"tel="+"{{$CCID}}",
+            dataType:"text",
+            type:"GET",
+            success:function(re){
+                  pos1=re.indexOf(",");
+                  var type=re.substr(0,pos1);
+                  re1=re.replace(type+",","");
+                  pos2=re1.indexOf(",");
+                  var left=re1.substr(0,pos2);
+                  var expiry=re1.replace(left+",","");
+                  //alert(type);alert(left);alert(expiry);
+                 // var left=data['left']; total=re;
+                 // var expiry=data['expiry'];
+                 // $(".total").html("你当月总流量是:<b>"+total+"</b>");
+                 if(type == 2){
+                	     $(".left").html("当月剩余流量:<b>"+left+"</b>");
+                 }else{
+                       $(".left").html("剩余流量:<b>"+left+"</b>");
+                   }
+                  //判断剩余流量是不是大于0，大于0才显示截止日期
+                  var  leftEnd = left.substr(-2);   //alert(leftEnd);
+                  leftInt = left.replace(leftEnd,""); //alert( leftInt);
+                  if(leftInt > 0){
+                	      if(type == 2){
+                	    	     $(".expiry").html("套餐过期时间:<b>"+expiry+"</b>");
+                	      }else{
+                             $(".expiry").html("过期时间:<b>"+expiry+"</b>");
+                	       }
+                  }
+            }
+      })
+      var tip="";
+      $("#upd").click(function(){
+           $(".zzc").css("display","block");    
+           $(".order_upd").css("display","block");    
+      })
+      $("#cancel").click(function(){
+           $("#updIn").val("");
+           $(".zzc").css("display","none"); 
+           $(".order_upd").css("display","none");
+      })
+      $("#cancel_x").click(function(){
+           $("#updIn").val("");
+           $(".zzc").css("display","none"); 
+           $(".order_upd").css("display","none");
+      })
+      tip="请输入要绑定的设备号";
+      $("#updIn").val(tip);
+      $("#updIn").css("color","#909090");
+      $("#updIn").focus(function(){
+        
+          if($("#updIn").val()==tip){
+                $("#updIn").val("");
+                $("#updIn").css("color","#61605e");
+          }
+       })
+      $("#updIn").blur(function(){
+           reg=/^\w{11}$/; 
+           hard_upd=$("#updIn").val();
+           if(hard_upd==""){
+                reUpd=false;
+                $("#updIn").val(tip);
+                $("#updIn").css("color","#909090");
+           }else if(!reg.test(hard_upd)){
+                reUpd=false;
+                sys_alert("设备号不符合规则");
+           }else{
+                $.ajax({
+	              url:"index.php?m=Member&a=isHard",
+	              data:"add="+hard_upd,
+	              dataType:"text",
+	              type:'GET',
+	              success:function(re){
+                          if($.trim(re)==="0"){
+                             sys_alert("设备号不存在");
+			       			 reUpd=false;                                           
+		          }else{		     
+		        	  //$("#bdupd").removeAttr("disabled");
+                      reUpd=true;
+	              }								 
+                  }
+                 })
+           }       
+      }) 
+      $("#bdupd").click(function(){
+                 CCID=$("#updIn").val();
+                 if(reUpd == true){
+                 $.ajax({                  
+                       url:"?m=Member&a=bdMember",
+                       data:"CCID="+CCID,
+                       dataType:"text",
+                       type:"GET",
+                       success:function(re){
+                              if($.trim(re)==="1"){       
+                                     sys_alert("更改成功");
+                                     $("#queding").click(function(){
+                                           location.reload();
+                                     })
+                              }else{
+                                     sys_alert("更改失败"); 
+                              }
+                       }
+                 })
+                 }
+      })
+        $("#changecard").click(function(){
+        	 $(".zzc").css("display","block");    
+             $(".order_upd").css("display","block");  
+      })
+})
+
+</script>
+<body>
+	<div id="main">
+
+		<div class="menu_bg ">
+			<div class="menu_width">
+				<span class="spanlh" onclick="javascript:history.go(-1);" ><img
+                                        src="__ROOT__/index/Tpl/images/back.gif" width="100%"/>
+				</span>
+                <span class="sTlh">流量查询</span>
+				{{if $is_login_tmp}}
+			      <div class="sTHlh"  ><a href="index.php?m=Member&a=userCenter"><img src="__ROOT__/index/Tpl/images/me.gif" width="100%"/></a></div>
+		        {{else}}
+		        {{/if}}
+			</div>
+		</div>
+		<div class="order_ybd clear" id="data_order_ybd"
+			style="height: 7.5em;">
+			<div class="left0">
+				<div class="Name clear">
+					<div class="name">亲爱的:</div>
+					<div class="nameValue">{{$usertel}}</div>
+				</div>
+				<div class="hard_info ">
+					<div>
+						<div class="tip">您要查询的设备号:</div>
+					</div>
+                    <div class="clear" style="width:100%;">
+					<div class="upd_info"
+						style="margin-bottom: 0.83em; margin-top: 1.25em;float: left;">
+						<span>{{$CCID}} </span>
+					</div>
+					<div style="margin-bottom: 0.83em; margin-top: 1.25em;float: right;vertical-align: middle;width:1.17em;height:1.1em">
+						<img src="__ROOT__/index/Tpl/images/wifi_edit.gif" id="changecard" width="100%" />
+					</div>
+                    </div>
+				</div>
+			</div>
+
+		</div>
+		
+		<div class="time"></div>
+		<div class="data_list">
+			<div class="title">流量使用情况</div>
+			<!--<div class="total"></div>-->
+			<div class="left"></div>
+			<div class="expiry"></div>
+		</div>
+		<div class="zzc"></div>
+		<div class="order_upd" style="background-image: url('__ROOT__/index/Tpl/images/alert_bg.png');">
+		            <div class="tip2"><img src="__ROOT__/index/Tpl/images/alert_close.gif" alt="" id="cancel_x" width="100%"/></div>
+		      <div>
+		    <div class="tip">请输入您要更改的设备号</div>
+		      </div>
+		      <div class="upd_info">
+		            <input type="text" value="" id="updIn">
+		      </div>
+		      <div class="btn">
+		      		<!--<img src="__ROOT__/index/Tpl/images/alert_cancel.gif" alt=""  id="cancel"/>-->
+		      		<img src="__ROOT__/index/Tpl/images/ok_edit.gif" width="100%" alt=""  id="bdupd"/>
+		      </div>
+		</div>
+		{{include file="default/Public/footer.html"}}
+
+
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

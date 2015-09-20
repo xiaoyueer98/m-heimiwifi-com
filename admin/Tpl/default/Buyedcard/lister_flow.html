@@ -1,0 +1,121 @@
+<html>
+<head>
+      <title>剩余流量查询页</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <link type="text/css" href="__ROOT__/admin/Tpl/css/html.css" rel="stylesheet">
+      <link type="text/css" href="__ROOT__/admin/Tpl/css/date.min.css" rel="stylesheet">
+      <link type="text/css" href="__ROOT__/admin/Tpl/css/title.css" rel="stylesheet">
+      <script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery.js"></script>
+      <script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery-1.7.2.min.js"></script>
+      <script type="text/javascript" src="__ROOT__/admin/Tpl/js/fenlan.js"></script>
+</head>
+<style>
+#t1{background:#eee; text-align:center;width:100%;}
+</style>
+<body>
+<!--设备号的导入begin-->
+        <!--遮罩层begin-->
+       <div id="zzc" style="position:absolute;z-index:10;left:0;top:0;width:100%;height:200%;background:#777;filter:alpha (opacity=50);opacity: 0.5;display:none;"></div>
+        <!--遮罩层end-->
+        <!--导入选择框begin-->
+       <div id="filek" style="position:absolute;left:300px;top:100px;z-index:100;display:none;background:white;">
+                                    
+          <div class="modal-body" style="text-align:center;width:400px;">
+            <div id="uniform-fileInput">
+              <form id="upload-form" action="?m=Buyedcard&a=import" method="post" enctype="multipart/form-data">
+                <input id="file" type="file" name="file-name" size="19"><br/><br/>
+                <div style="text-align:left;padding-left:120px;">
+                      <a href="">点击下载导入模版</a>
+                </div><br/>
+                <div style="text-align:center;padding-left:100px;">
+                      <input type="button" value="取消" id="cancel">
+                      <input type="button" id="start" value="导入" >
+                </div>
+              </form>
+              
+            </div>
+          </div>
+       </div>
+<!--设备号的导入end--> 
+
+<!--设备号的导入begin-->
+        <!--遮罩层begin-->
+       <div id="zzc1" style="position:absolute;z-index:10;left:0;top:0;width:100%;height:200%;background:#777;filter:alpha (opacity=50);opacity: 0.5;display:none;"></div>
+        <!--遮罩层end-->
+        <!--导入选择框begin-->
+       <div id="filek1" style="position:absolute;left:300px;top:100px;z-index:100;display:none;background:white;">
+                                    
+          <div class="modal-body" style="text-align:center;width:400px;">
+            <div id="uniform-fileInput">
+              <form id="upload-form1" action="?m=Buyedcard&a=import1" method="post" enctype="multipart/form-data">
+                <input id="file1" type="file" name="file-name1" size="19"><br/><br/>
+                <div style="text-align:left;padding-left:120px;">
+                      <a href="">点击下载导入模版</a>
+                </div><br/>
+                <div style="text-align:center;padding-left:100px;">
+                      <input type="button" value="取消" id="cancel1">
+                      <input type="button" id="start1" value="导入" >
+                </div>
+              </form>
+              
+            </div>
+          </div>
+       </div>
+<!--设备号的导入end--> 
+
+
+<center>
+<table width="100%">
+      <tr id="tr1"><th colspan="20"><h2>剩余流量查询列表</h2></th></tr>
+      <tr id="tr2">
+            <td id="td1"></td>
+            <td colspan="2" id="td2">
+                  <input class="datepicker datepicker1 input_text" style="width: 78px;"alt="开始日期" title="开始日期" name="start_time" default_val="开始日期" value="开始日期" style="color:#999999;" type="text" id="start_time">
+                  &nbsp;到 &nbsp;
+                  <input class="datepicker datepicker2 input_text" style="width: 78px"alt="截止日期" title="截止日期" name="end_time"  value="截止日期"  default_val="截止日期"style="color:#999999;" type="text" id="end_time">
+            </td>
+            <td>上网号：<input type="text"name="CCID" id="CCID" value="" size="8" class="input_text"></td>
+            <td id="td6"><input type="button" value="导入" id="in" class="btnblue"></td>
+            <td id="td6"><input type="button" value="参加活动用户更改" id="in1" class="btnblue"></td>
+            <td id="td6"><input type="button" value="搜索" id="sou" class="btnblue"></td>
+      </tr>
+</table> 
+<table id="t1">
+      <thead>
+            <tr id="tr2">
+                  <td><input type="checkbox" class="checkboxall"></td>
+                  <td>ID</td>
+                  <td>上网号</td>
+                  <td>剩余流量</td>
+                  <td>插入时间</td>
+                  
+            </tr>
+      </thead>
+      <tbody id="tb1">
+      
+      </tbody>
+      <tfoot id="tt1">
+            <tr>
+                  <td colspan="7" id="td7">
+                  </td>
+                  
+                  <td>每页
+                        <select id="size" onchange="getSize();">
+                             <option value="15">15</option>
+                             <option value="30">30</option>
+                             <option value="50">50</option>
+                             <option value="100">100</option>
+                        </select> 
+                  </td>
+            </tr>
+      </tfoot>
+</table>
+</center>
+<style>
+
+</style>
+</body>
+</html>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/date.js?v={STATIC_VERSION}"></script>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/flow.js"></script>
+

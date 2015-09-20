@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, user-scalable=no ,target-densitydpi=device-dpi ,initial-scale= 0.5"/>
+<title>WiFi随身宝|黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+function fun2(id){
+	 
+$.ajax({
+      url:"?m=Member&a=isLogin",
+      success:function(re){
+	    if($.trim(re)==="1"){
+		  $.ajax({
+			url:"?m=Member&a=isReserve",
+			success:function(re){
+			      if($.trim(re)==="1"){
+									                    
+                                    location.href="?m=Member&a=reserveInfo";
+			      }else{
+								                	   
+				    location.href="?m=Member&a=reserveSuccess";    
+			      }
+			}
+		  })
+	    }else{
+            	  location.href="?m=Member&a=login";    	  
+            }
+     }
+})     
+}
+</script>
+<body>
+<div id="main">
+    
+<div class="menu_bg ">
+      <div class="menu_width "><div class="menu_width "><a href="?m=Index&a=index" style="float:left;text-decoration:none;margin-left:5%;"><img src="__ROOT__/index/Tpl/images/back.gif"></a><span style="margin-left:-160px;">黑米WiFi</span></div></div>
+</div>      
+  
+<!-- banner图片-->
+<div class="banner banner_reserve" >
+   
+      <img src=__ROOT__/index/Tpl/images/bannerx2.jpg border="0" onclick="fun2(1);"/>
+  
+</div>	
+<div class="reserveBtn" onclick="fun2(1);">
+   <img src='__ROOT__/index/Tpl/images/button.gif' >
+</div>
+<div class="detailBtn">
+   <a href="http://bbs.heimiwifi.com/forum.php?mod=viewthread&tid=14&extra=page%3D1">
+        查看详情
+   </a>
+</div>
+
+<!--banner end-->
+
+<!-- 小图开始-->  
+  
+<div class="contenti1">
+      <div class="left1"> 
+           <a href=""> 
+              <img src=__ROOT__/index/Tpl/images/teidian1.jpg border="0"/> 
+           </a> 
+        </div>
+        <div class="middle1"> 
+           <a href="">
+              <img src=__ROOT__/index/Tpl/images/tedian2.jpg border="0"/>
+           </a> 
+        </div>
+        <div class="right1"> 
+           <a href=""> 
+              <img src=__ROOT__/index/Tpl/images/tedian3.jpg border="0"/>
+           </a>
+        </div>
+        <div class="right1"> 
+           <a href=""> 
+              <img src=__ROOT__/index/Tpl/images/tedian4.jpg border="0"/>
+           </a>
+        </div>
+  
+  
+</div>
+
+<!-- banner图片-->
+<div class="reserve_banner">
+<div>
+   <a href="/index.php?m=Member&a=reserveInfo">
+      <img src=__ROOT__/index/Tpl/images/heimiwifibanner-bottom.jpg border="0"/>
+   </a>
+</div>
+<center>
+<div class="reserve1Btn">
+      <img src="__ROOT__/index/Tpl/images/yuding_bottom.png" onclick="fun2(1)">
+</div>
+</center>
+</div>
+<!-- banner图片-->
+
+<!--尾部-->
+{{include file="default/Public/footer.html"}}
+<!--尾部end-->
+<div style="display:none">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

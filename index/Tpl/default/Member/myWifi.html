@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+//如果状态是1 已绑定页面显示 ，如果状态是2 未绑定状态
+if("{{$sta}}"=="1"){
+
+      $(".mywifi_wbd").css("display","none");
+      $(".mywifi_ybd").css("display","block");
+}else if("{{$sta}}"=="2"){
+    
+      $(".mywifi_wbd").css("display","block");
+      $(".mywifi_ybd").css("display","none");
+}
+var rebuy=false;
+var reUpd=false;
+var CCID;
+//立即绑定js
+
+      $("#cancel_x1").click(function(){
+           $("#updIn_1").val(tip1);
+           $(".zzc_1").css("display","none"); 
+           $(".order_upd_1").css("display","none");
+      })
+      $("#cancel_x").click(function(){
+           $("#updIn").val(tip1);
+           $(".zzc").css("display","none"); 
+           $(".order_upd").css("display","none");
+      })
+$("#bd").click(function(){
+      $(".zzc_1").css("display","block");    
+      $(".order_upd_1").css("display","block");    
+      
+    
+})
+     
+      $("#cancel_1").click(function(){
+           $("#updIn_1").val(tip1);
+           $(".zzc_1").css("display","none"); 
+           $(".order_upd_1").css("display","none");
+      })
+      tip1="请输入要绑定的设备号";
+      $("#updIn_1").val(tip1);
+      $("#updIn_1").css("color","#909090");
+      $("#updIn_1").focus(function(){
+        
+          if($("#updIn_1").val()==tip1){
+                $("#updIn_1").val("");
+                $("#updIn_1").css("color","#61605e");
+          }
+       })
+      $("#updIn_1").blur(function(){
+           reg=/^\w{11}$/; 
+           hard_upd=$("#updIn_1").val();
+           if(hard_upd==""){
+                reUpd=false;
+                $("#updIn_1").val(tip1);
+                $("#updIn_1").css("color","#909090");
+           }else if(!reg.test(hard_upd)){
+                reUpd=false;
+                sys_alert("设备号不合法");
+
+           }else{
+
+                $.ajax({
+	              url:"index.php?m=Member&a=isHard",
+	              data:"add="+hard_upd,
+	              dataType:"text",
+	              type:'GET',
+	              success:function(re){
+		        
+                          if($.trim(re)==="0"){
+			                  
+                                sys_alert("设备号不存在");
+			        reUpd=false;
+                                            
+		          }else{		     
+			        reUpd=true;
+	                  }
+								 
+                     }
+                 })
+
+           }
+           
+
+      }) 
+      $("#bdupd_1").click(function(){
+          
+            if(reUpd==true){
+                 CCID=$("#updIn_1").val();
+                 $.ajax({
+                   
+                       url:"?m=Member&a=bdMember",
+                       data:"CCID="+CCID,
+                       dataType:"text",
+                       type:"GET",
+                       success:function(re){
+                              //sys_alert(re);
+                              if($.trim(re)==="1"){
+                              
+                                     sys_alert("绑定成功");
+                                     $("#queding").click(function(){
+                                           location.reload();
+                                          })
+                              }else{
+                                     sys_alert("更改失败"); 
+                              }
+
+
+                       }
+
+                 })
+            
+            }  
+      })
+
+
+//修改绑定js
+
+
+      $("#mywifi_in_upd").click(function(){
+           $(".zzc").css("display","block");    
+           $(".order_upd").css("display","block");    
+      })
+      $("#cancel").click(function(){
+           $("#updIn").val(tip);
+           $("#updIn").css("color","#909090");
+           $(".zzc").css("display","none"); 
+           $(".order_upd").css("display","none");
+      })
+       tip="请输入要绑定的设备号";
+      $("#updIn").val(tip);
+      $("#updIn").css("color","#909090");
+      $("#updIn").focus(function(){
+        
+          if($("#updIn").val()==tip){
+                $("#updIn").val("");
+                $("#updIn").css("color","#61605e");
+          }
+       })
+      $("#updIn").blur(function(){
+           reg=/^\w{11}$/; 
+           hard_upd=$("#updIn").val();
+           if(hard_upd==""){
+                reUpd=false;
+                $("#updIn").val(tip);
+                $("#updIn").css("color","#909090");
+           }else if(!reg.test(hard_upd)){
+                reUpd=false;
+                sys_alert("设备号不合法");
+
+           }else{
+
+                $.ajax({
+	              url:"index.php?m=Member&a=isHard",
+	              data:"add="+hard_upd,
+	              dataType:"text",
+	              type:'GET',
+	              success:function(re){
+		        
+                          if($.trim(re)==="0"){
+			                  
+                                sys_alert("设备号不存在");
+			        reUpd=false;
+                                            
+		          }else{		     
+			        reUpd=true;
+	                  }
+								 
+                     }
+                 })
+
+           }
+           
+
+      }) 
+      $("#bdupd").click(function(){
+          
+            if(reUpd==true){
+                 CCID=$("#updIn").val();
+                 $.ajax({
+                   
+                       url:"?m=Member&a=bdMember",
+                       data:"CCID="+CCID,
+                       dataType:"text",
+                       type:"GET",
+                       success:function(re){//sys_alert(re);
+                              if($.trim(re)==="1"){
+                              
+                                     sys_alert("更改成功");
+                                     $("#queding").click(function(){
+                                           location.reload();
+                                           })
+                              }else{
+                                     sys_alert("更改失败"); 
+                              }
+
+
+                       }
+
+                 })
+            
+            }  
+      })
+
+          
+})
+</script>
+<body>
+<div id="main_order">
+    
+<div class="menu_bg ">
+      <div class="menu_width">
+          <span class="spanlh" onclick="javascript:history.go(-1);" ><img src="__ROOT__/index/Tpl/images/back.gif" width="100%" /></span>
+      <span class="sTlh" >个人中心</span>
+      <!--<span style="margin-left:0px;">个人中心</span>-->
+      {{if $is_login_tmp}}
+      <div class="sTHlh" ><a href="index.php?m=Member&a=userCenter"><img src="__ROOT__/index/Tpl/images/me.gif" width="100%"/></a></div>
+      {{else}}
+      {{/if}}
+      </div>
+</div>
+<div class="mywifi_title" style="border-bottom:1px solid #e5e5e5;padding-bottom: 1.25em">我的黑米WiFi</div>
+
+
+<div class="mywifi_ybd">
+    <div class="tip_ybd">设备号</div>
+	<div class="mywifi_in" id="mywifi_in_upd">
+		  <div class="mzi">{{$CCID}}</div> 
+                  <div class="rjt" style="width:1.17em;height:1.1em"><img src="__ROOT__/index/Tpl/images/wifi_edit.gif" style="margin-top:-0.42em;" width="100%"/></div> 
+	</div>	  
+      <div class="tip_ybd">WiFi信号&nbsp;</div>
+	  <div class="mywifi_in">
+		  <div class="mzi">{{$ssid}}</div>  
+	</div>	 
+      <div class="tip_ybd">WiFi密码&nbsp;</div>
+	   <div class="mywifi_in">
+		  <div class="mzi">{{$pwd}}</div>  
+	</div> 
+      <div class="tip_ybd">如果忘记WiFi密码，请按设备Reset键恢复。</div>
+</div>
+
+<div class="mywifi_wbd">
+     <div class="title">绑定你的设备号，享受更多服务</div>
+	 <div class="title1" id="bd">立即绑定</div>
+     
+</div>
+<!--立即绑定的弹出框-->
+<div class="zzc_1"></div>
+<div class="order_upd_1" style="background-image: url('__ROOT__/index/Tpl/images/alert_bg.png');">
+      <div>
+          <div class="tip_2" style="width: 0.77em;height: 0.77em;"><img src="__ROOT__/index/Tpl/images/alert_close.gif" width="100%" alt="" id="cancel_x1"/></div>
+            <div class="tip_1">请输入要绑定的设备号</div>
+      </div>
+      <div class="upd_info_1">
+            <input type="text" value="" id="updIn_1">
+      </div>
+      <div class="btn_1" style="text-align:center;">
+      		<!--<img src="__ROOT__/index/Tpl/images/alert_cancel.gif" alt=""  id="cancel_1"/>-->
+      		<img src="__ROOT__/index/Tpl/images/alert_bd.gif" width="100%"  style="" alt=""  id="bdupd_1"/>
+      </div>
+</div>
+<!--修改绑定的弹出框-->
+<div class="zzc"></div>
+<div class="order_upd" style="background-size:14.7em 7.7em;background-image: url('__ROOT__/index/Tpl/images/alert_bg.png');">
+      <div>
+       		<div class="tip2" style="width: 0.77em;height: 0.77em;"><img src="__ROOT__/index/Tpl/images/alert_close.gif" width="100%" alt="" id="cancel_x"/></div>
+            <div class="tip">请输入要绑定的设备号</div>
+      </div>
+      <div class="upd_info">
+            <input type="text" value="" id="updIn">
+      </div>
+      <div class="btn" style="text-align:center;width: 3.55em;height: 1.33em;margin: 0 auto;">
+      		<!--<img src="__ROOT__/index/Tpl/images/alert_cancel.gif" alt=""  id="cancel"/>-->
+                <img src="__ROOT__/index/Tpl/images/alert_upd.gif" style="" width="100%" alt=""  id="bdupd"/>
+      </div>
+</div>
+<div>
+      <div></div> 
+</div>
+</div>
+{{include file="default/Public/footer.html"}}
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<html>
+<head>
+      <title>用户管理</title>
+      <link type="text/css" href="__ROOT__/admin/Tpl/css/html.css" rel="stylesheet">
+      <link type="text/css" href="__ROOT__/admin/Tpl/css/date.min.css" rel="stylesheet">
+      <script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery.js"></script>
+      <script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery-1.7.2.min.js"></script>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<style>
+#t1{background:#eee; text-align:center;}
+</style>
+<body>
+<center>
+<table>
+      <tr id="tr1"><th colspan="7"><h2>用户管理</h2></th></tr>
+      <tr id="tr2">
+            <td id="td1"></td>
+            <td colspan="2" id="td2">
+                  <input class="datepicker datepicker1" style="width: 78px;"alt="开始日期" title="开始日期" name="start_time" default_val="开始日期" value="开始日期" style="color:#999999;" type="text" id="start_time">
+                  &nbsp;到 &nbsp;
+                  <input class="datepicker datepicker2" style="width: 78px"alt="截止日期" title="截止日期" name="end_time"  value="截止日期"  default_val="截止日期"style="color:#999999;" type="text" id="end_time">
+            </td>
+            <td id="td3">HeimiNum：<input type="text"name="CCID" id="CCID" value="" size="8"></td>
+            <td id="td3">状态：
+                <select id="sta">
+                     <option value="">全部<option>
+                     <option value="1">未出库<option>
+                     <option value="2" selected="selected">启用<option>
+                     <option value="4">暂停<option>
+                     <option value="5">冻结<option>
+                </select>
+            </td>
+            <td id="td3">配额类型：
+                <select id="type">
+                     <option value="">全部<option>
+                     <option value="1">月卡<option>
+                     <option value="2">按月返年卡<option>
+                     <option value="3">年卡<option>
+                </select>
+            </td>
+            <td id="td3" style="width:200px;">剩余流量：&nbsp;<= &nbsp;<input type="text"name="left" id="left" value="" size="8">M</td>
+            <td id="td6"><input type="button" value="搜索" id="sou"></td>
+      </tr>
+</table> 
+<table id="t1">
+      <thead>
+            <tr id="tr2">
+                  <td><input type="checkbox" class="checkboxall"></td>
+                  <td>设备号</td>
+                  <td>初始启用日期</td>
+                  <td>状态</td>
+                  <!--<td>微信号</td>-->
+                  <td>剩余流量</td>
+                  <td>当前配额</td>
+                  <td>有效期</td>
+                  <td>充值续费</td>
+                  <td>操作</td>
+            </tr>
+      </thead>
+      <tbody id="tb1">
+      
+      </tbody>
+      <tfoot id="tt1">
+            <tr>
+                  <td colspan="7" id="td7">
+                  </td>
+                  <td>
+                  </td>
+                  <td>每页
+                        <select id="size" onchange="getSize();">
+                             <option value="15">15</option>
+                             <option value="30">30</option>
+                             <option value="50">50</option>
+                             <option value="100">100</option>
+                        </select> 
+                  </td>
+            </tr>
+      </tfoot>
+</table>
+</center>
+<style>
+.zzc{
+    display:none;
+    position:absolute;
+    height:200%;
+    width:100%;
+    left:0;
+    top:-200px;
+    z-index=100;
+    background:gray;
+    filter:alpha(opacity=50);-moz-opacity:0.5;opacity: 0.5;
+}  
+.orInfo{
+    background:white;
+    display:none;
+    position:absolute;
+    left:300px;
+    top:100px;
+    z-index:101;
+    width:400px;
+    height:300px;
+}
+.orInfo h2{text-align:center;}
+.orInfo .ok{text-align:center;}
+</style>
+</body>
+</html>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/date.js?v={STATIC_VERSION}"></script>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/buyedcard2.js"></script>
+

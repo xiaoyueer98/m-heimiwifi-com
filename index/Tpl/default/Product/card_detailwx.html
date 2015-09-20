@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+function fun1(id){
+//$.ajax({
+//      url:"?m=Member&a=isLogin",
+ //     success:function(re){
+         //   if($.trim(re)==="1"){
+                  var num=1;
+                  var type=2;
+                  $.ajax({
+                          url:"?m=Product&a=productSetcookie",
+                          data:"pid="+id+"&num="+num+"&type="+type,
+                          dataType:"text",
+                          type:'GET',
+                          success:function(re){
+                                location.href="?m=Member&a=order_cardwx&wxid={{$wxid}}";
+                             }
+                  }) 
+          //  }else{
+            //      location.href="?m=Member&a=login";
+           // }            
+   //   }
+//})
+}
+
+</script>
+
+<body>
+<div id="main">
+<!--    
+<div class="menu_bg">
+      <div class="menu_width "><a href="?m=Index&a=index" style="float:left;text-decoration:none;font-size:30px;margin-left:5%;"><img src="__ROOT__/index/Tpl/images/back.gif"></a>
+      <span>充值服务</span></div>
+</div>
+-->
+<!--
+<div class="menu_bg" style="height:2.9em;position:relative;">
+      <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">
+            <span class="sTlh" style="line-height:2.9em;display:block;width:100%">充值服务</span>
+      </div>
+      <div class="menu_width " style="position:absolute;left:0;top:0" >
+          <span class="spanlh" onclick="javascript:history.go(-1);" >
+              <img src="__ROOT__/index/Tpl/images/back.gif" width="100%"/>
+          </span>
+      </div>
+       
+</div>   
+-->
+<!-- banner图片
+<div class="banner">
+      <img src="{{$card.img}}" border="0"/>
+</div>
+-->
+<div class="card_detail">
+	   <div class="detail_title" style="background-image: url('__ROOT__/index/Tpl/images/bg.png'); background-size:100% 100%; background-repeat:repeat-x;">
+	   		<div style="font-size: 1.4em;color: #f2f0f1;padding-top: 1.34em"><!--黑米WiFi--></div>
+	   		<div style="font-size: 1.38em;color: #f2f0f1;padding-top: 0.3em;">
+	   		 {{$card.title}}
+	   		</div>
+	   		<div style="font-size: 0.9em;color: #f2f0f1;padding-top: 0.9em">
+	   		{{if $card.type == 1}}
+       		有效期至:{{$endTime}}
+       		{{else if $card.type == 2}}
+       		有效期至:{{$endTime}}
+       		{{/if}}
+	   		</div>
+	   </div>
+       <div class="wenxintishi">
+            <div class="tishi"><b>使用提示：</b></div>
+            <div class="neir">
+                {{if $card.type==1}}
+                <ul>
+                   <li>1.全国均可使用，免漫游费（暂不支持港澳台）</li>
+                   <li>2.若当月流量不足，可叠加充值</li>
+                   <li>3.购买该套餐则全部流量有效期截止为2014.8.31</li>
+                   <li>4.订单支付成功后，流量24小时内生效</li>
+                </ul>
+                {{else}}
+                <ul>
+                   <li>1.全国均可使用，免漫游费（暂不支持港澳台）</li>
+                   <li>2.可随时叠加充值，跨月流量不清零</li>
+                   <li>3.订单支付成功后，流量24小时内生效</li>
+                </ul>
+                {{/if}}
+            </div>
+      </div><!--温馨提示结束-->
+       <div id="price"><font style="color:#E65A1D;">价格:&nbsp;{{if $card.isDiscount==1}} <font style="text-decoration:line-through;">￥{{$card.price}} </font>{{/if}}&nbsp;￥{{$card.price-$card.discount}}</font></div>
+</div>
+      
+<div class="card_btn">
+       <div>
+          <img width="93%" src="__ROOT__/index/Tpl/images/buy_now.gif" id="{{$card.id}}" onclick="fun1(this.id);">
+       </div>
+</div>
+
+<!--footer-->
+
+<!--footer end-->
+</div>
+<div style="display:none">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

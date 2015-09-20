@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+            <meta content="yes" name="apple-mobile-web-app-capable" />   
+            <meta content="telephone=no" name="format-detection" />
+            <title>黑米WiFi</title>
+            <link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+            <link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+                </head>
+
+                <script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+                <script type="text/javascript">
+                    var sjh = false;
+                    var reUpd = false;
+                //var re1=false;
+                    var reYzm = false;
+                    $(document).ready(function() {
+                        $("#wxsbh").focus(function() {
+                            var s = '请输入您的设备号';
+                            var s0 = $("#wxsbh").val();
+                            if (s == s0) {
+                                $("#wxsbh").val('');
+                            }
+                        }
+                        )
+                        $("#wxsbh").blur(function() {
+                            var reg = /^\w{11}$/;
+                //  reUpd=false;
+                            var s = '请输入您的设备号';
+                            var s0 = $("#wxsbh").val();
+                            if (s0.length == 0) {
+                                reUpd = false;
+                                $("#wxsbh").val(s);
+                            } else if (!reg.test(s0)) {
+                                reUpd = false;
+                                sys_alert("设备号不符合规则");
+                            } else {
+                                $.ajax({
+                                    url: "index.php?m=Member&a=isHard",
+                                    data: "add=" + s0,
+                                    dataType: "text",
+                                    type: 'GET',
+                                    success: function(re) {
+                                        if ($.trim(re) === "0") {
+                                            sys_alert("设备号不存在");
+                                            reUpd = false;
+                                        } else {
+                                            reUpd = true;
+                                        }
+
+                                    }
+                                })
+
+                            }
+                        })
+
+
+                        $("#tel").focus(function() {
+                            var s = '请输入您的手机号';
+                            var s0 = $("#tel").val();
+                            if (s == s0) {
+                                $("#tel").val('');
+                            }
+                        })
+
+                        $("#tel").blur(function() {
+                            var reg = /^[0-9]{11}$/;
+                            var s = '请输入您的手机号';
+                            var s0 = $("#tel").val();
+                            if (s0.length == 0) {
+                                $("#tel").val(s);
+                            } else if (!reg.test(s0)) {
+                                sjh = false;
+                                sys_alert("号码不符合规则");
+                            } else {
+                                sjh = true;
+                            }
+                        })
+
+                        $("#yzm").blur(function() {
+                            yzm = $("#yzm").val();
+                            reg = /^\d{11}$/;
+                            if (yzm == "") {
+                                reYzm = false;
+                                yzm = $("#yzm").val();
+                                $("#yzm").css("color", "#d7d5d4");
+                            } else {
+                                if (sjh) {
+                                    $.ajax({
+                                        url: "index.php?m=Member&a=checkYzm",
+                                        data: "yzm=" + yzm,
+                                        dataType: "text",
+                                        success: function(re) {
+
+                                            if ($.trim(re) == "1") {
+                                                reYzm = true;
+                                                //return;
+                                            } else {
+                                                reYzm = false;
+                                                sys_alert("验证不正确");
+                                            }
+
+                                        }
+                                    })
+                                }
+                            }
+                        })
+
+
+                    })
+
+
+                //var re1=false;  
+                    var re2 = false;
+                    var tel;
+                    var tip1 = "请输入您的手机号";
+                    //$("#tel").blur(function(){
+                    function funTel() {
+                        tel = $("#tel").val();
+                        reg = /^\d{11}$/;
+                        if (reUpd == false) {
+                            sys_alert("您还没有输入设备号");
+                            return;
+                        }
+
+                        if (tel == "") {
+                            sjh = false;
+                            $("#tel").css("color", "#d7d5d4");
+                            $("#tel").val(tip1);
+                            tel = $("#tel").val();
+                        } else if (!reg.test(tel)) {
+                            sjh = false;
+                            sys_alert("您还没有输入手机号");
+
+                        } else {
+                            $.ajax({
+                                url: "index.php?m=Member&a=telAjax2",
+                                data: "tel=" + tel,
+                                dataType: "text",
+                                type: 'GET',
+                                success: function(re) {
+                                    if ($.trim(re) == "1") {
+                                        sjh = true;
+                                        sys_alert("验证码已发送，请注意查收");
+                                        $("#wxyzmid").attr({src: '__ROOT__/index/Tpl/images/wxyzm2.png'});
+                                        $("#wxyzmid").attr({onclick: 'return false;'})
+                                        setTimeout('jhmpng()', 60000);
+                                    } else {
+                                        sjh = false;
+                                        sys_alert(re);
+                                    }
+
+                                }
+
+                            })
+
+                        }
+
+                    }
+                    function jhmpng() {
+                        $("#wxyzmid").attr({src: '__ROOT__/index/Tpl/images/wxyzm.png'});
+                        $("#wxyzmid").click(funTel);
+                    }
+
+                    function on2() {
+//                        if (sjh && reUpd && (typeof reYzm) == 'undefined') {
+//                            sys_alert('您还没有输入验证码');
+//                        }
+//                        if (sjh && reUpd && reYzm) {
+                        if ( reUpd ) {
+                            var ccid = encodeURI($("#wxsbh").val());
+                            var tel = encodeURI($("#tel").val());
+                            var wxnn = encodeURI($("#wxnn").text());
+                            var wxid = encodeURI('{{$r.wxid}}');
+                            $.ajax({
+                                url: "index.php?m=Weixin&a=wxbind",
+                                data: "html=1&" + "tel=" + tel + "&ccid=" + ccid + "&wxnn=" + wxnn + "&wxid=" + wxid,
+                                dataType: "text",
+                                type: 'POST',
+                                success: function(re) {
+                                    if ($.trim(re) >= 1) {
+                                        // sjh=true;
+                                        location.href = '__ROOT__/index.php?m=Weixin&a=wxbind2'
+                                    } else {
+                                        //sjh=false;
+                                        sys_alert(re);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                </script>
+                <body bgcolor="#f1f1f1">
+                    <div class="wx_menu_bg"> 
+                        <div class="spanlh">绑定设备号</div>
+                        <div class="wxformlh">
+                            <div><span>微信用户：</span><span id="wxnn">{{$r.wxnn}}</span></div>
+                            <div><span>设备号：</span><input name="wxsbh" id="wxsbh" type="text" value="请输入您的设备号" /></div>
+<!--                            <form action="index.php?m=Member&a=regYzm" method="post" id="wxform">
+                                <div><span>手机号：</span><input name="tel" id="tel" type="text" value="请输入您的手机号"  /></div>
+                                <div style="color:#909090; font-size:0.85em; margin-top:0em;">此手机号用来接收验证码，请仔细填写</div>
+                                <div><span>验证码：</span><input name="yzm" id="yzm" type="text" value=""  /></div>
+                                <div style="width:6em;height:2em;display:inline-block; float:right; margin-right:6%;"><img src="__ROOT__/index/Tpl/images/wxyzm.png" id="wxyzmid" width="100%" onclick="funTel();" /> <a href="javascript:void(0);" onclick="funTel();" style="color:#909090;" >重新获取</a> </div>
+                            </form>-->
+                            <div style="margin-left: 5%;margin-top:3em; padding-top:4em; margin-bottom:2em;"><img src="__ROOT__/index/Tpl/images/wap_lijibangding.gif" width="90%" onclick="on2()" /></div>
+                        </div>
+                        <div class="">
+                        </div>
+                    </div>
+
+                    <div style="color:#909090; margin-bottom:2em;">本页面由黑米WiFi为您提供安全保障，请您放心使用</div>
+                    <div style="display:none;">
+                        <script type="text/javascript">
+                            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+                        </script>
+                    </div>
+                </body>
+                </html>

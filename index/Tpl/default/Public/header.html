@@ -1,0 +1,42 @@
+	
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<!-- menu-->
+
+<div class="menu_bg ">
+      <div class="menu_width ">
+            <div class="logo"> </div>
+	          <div class="menu ">
+	                <ul>
+	                      <li><a href="/index.php">首页</a></li>
+	                      <li><a href="">黑米手机</a></li>
+	                      <li><a href="">黑米随身WiFi</a></li>
+                        <li><a href="">黑米社区</a></li>
+                        <li><a href="/index.php?m=About&a=servicecenter">服务中心</a></li>
+                        <li><a href="">黑米天猫</a></li>
+	                </ul>
+	          </div>
+      </div>	 
+</div>
+    
+<!-- menu结束-->
+    
+<!-- 鼠标在导航栏上背景变色   -->  
+<script type="text/javascript">
+
+$(".menu li").mouseover(function(){
+	 
+      $(this).css("background","#b15303");
+
+})
+$(".menu li").mouseout(function(){
+	 
+      $(this).css("background","");
+
+})
+if(parseInt(window.screen.width) <=800){
+	 
+	    $(".menu li").css("font-size","18px");
+	    $(".menu li").css("padding-left","3px");
+}
+
+</script>

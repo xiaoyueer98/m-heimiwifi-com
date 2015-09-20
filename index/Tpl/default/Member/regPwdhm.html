@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+var re1=false;  
+var re2=false;
+var pwd;
+$(document).ready(function(){
+
+      
+      
+      var tip1="请输入密码";
+
+      $("#pwdText").val(tip1);
+      $("#pwdText").focus(function(){
+            $("#pwdText").css("display","none");
+            $("#pwd").css("display","block");
+            $("#pwd").focus();
+            $("#pwd").css("color","#61605e");
+      })
+      $("#pwd").blur(function(){
+     
+            pwd=$("#pwd").val();
+            //reg1=/^.*\d+.*[a-zA-z]+.*$/;
+            //reg11=/^.*[a-zA-z]+.*\d+.*$/;
+            //reg2=/^.*\d+.*[!@#\$%\^&\*\(\)_\+-=~`"':;{}\[\]\\|,\./\?><]+.*$/;
+            //reg22=/^.*[!@#\$%\^&\*\(\)_\+-=~`"':;{}\[\]\\|,\./\?><]+.*\d+.*$/;
+            //reg3=/^.*[a-zA-z]+.*[!@#\$%\^&\*\(\)_\+-=~`"':;{}\[\]\\|,\./\?><]+.*$/;
+            //reg33=/^.*[!@#\$%\^&\*\(\)_\+-=~`"':;{}\[\]\\|,\./\?><]+.*[a-zA-z]+.*$/;
+            reg=/^\w{6,20}$/;   
+            /*if(pwd.length>=6 && pwd.length<=12){
+                  reg0=true;
+            }else{
+                  reg0=false;
+            }*/
+            if(pwd==""){
+                  $("#pwd").css("display","none");   
+                  $("#pwdText").css("display","block");   
+                  $("#pwdText").css("color","#d7d5d4");
+                  re1=false;
+            }else if(!reg.test(pwd)){
+            
+                  re1=false;
+                  sys_alert("密码不合法");   
+           }else{
+                  re1=true;
+           }
+      })
+
+      var tip2="再次确认密码";
+
+      $("#pwdNewText").val(tip2);
+      $("#pwdNewText").focus(function(){
+            $("#pwdNewText").css("display","none");
+            $("#pwdNew").css("display","block");
+            $("#pwdNew").focus();
+            $("#pwdNew").css("color","#61605e");
+      })
+      $("#pwdNew").blur(function(){
+     
+            var pwdNew=$("#pwdNew").val();
+            if(pwdNew==""){
+            
+                  $("#pwdNew").css("display","none");   
+                  $("#pwdNewText").css("display","block");   
+                  $("#pwdNewText").css("color","#d7d5d4");
+                  re2=false;
+            }
+            else if(pwdNew==pwd ){
+                  
+                  re2=true;
+            }else{
+                  re2=false;
+                  sys_alert("密码不相同");
+            }
+
+      })     
+
+      $("#regBtn3").click(function(){
+          
+           if(re1==true && re2==true){
+                  $("form")[0].submit(); 
+           }    
+      })  
+})
+</script>
+<body>
+<div id="main_order">
+<!--    
+<div class="menu_bg ">
+      <div class="menu_width "><span onclick="javascript:history.go(-1);"  style="float:left;text-decoration:none;font-size:30px;margin-left:5%;"><img src="__ROOT__/index/Tpl/images/back.gif"></span>
+      <span style="margin-left:0px;">注册</span>
+      {{if $is_login_tmp}}
+	      <div style="float: right;vertical-align: middle;margin-right: 30px"><a href="index.php?m=Member&a=userCenter"><img src="__ROOT__/index/Tpl/images/me.gif"></img></a></div>
+        {{else}}
+        {{/if}}
+      </div>
+</div>
+-->
+<div class="menu_bg" style="height:2.9em;position:relative;">
+
+      <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">
+                <span class="sTlh" style="line-height:2.9em;display:block;width:100%">注册</span>
+          </div>
+      <div class="menu_width " style="position:absolute;left:0;top:0" >
+          <span class="spanlh" onclick="javascript:history.go(-1);"  >
+              <img width="100%" src="__ROOT__/index/Tpl/images/back.gif">
+          </span>
+      </div>
+       
+</div>        
+<div class="regPwd_div">
+      <div class="regPwd_tip">设置账户密码</div>
+      <div class="regPwd_title">
+         <p>请输入6—20位数字或英文字符（区分大小写）</p>
+      </div>
+      <form action="index.php?m=Member&a=regSavehm" method="post">
+      <input type="hidden" value="{{$tel}}" name="tel" id="tel">
+      <div class="regPwd_pwd"><input type="text" value="" id="pwdText" /></div> 
+      <div class="regPwd_pwd"><input type="password" value="" id="pwd" name="password"/></div>
+      <div class="regPwd_tip1">请再次输入密码</div>
+      <div class="regPwd_pwd"><input type="text" value="" id="pwdNewText" /></div> 
+      <div class="regPwd_pwd"><input type="password" value="" id="pwdNew"/></div> 
+      <div class="regPwd_btn">
+         <img src="__ROOT__/index/Tpl/images/okreg.gif" width="90%" id="regBtn3">
+      </div> 
+      </form>
+</div>
+
+</div>
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

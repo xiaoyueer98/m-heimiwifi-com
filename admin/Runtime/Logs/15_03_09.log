@@ -1,0 +1,8 @@
+[ 2015-03-09T09:56:22+08:00 ] /admin.php | NOTIC: [2] in_array() expects parameter 2 to be array, null given Action.class.php 第 430 行.
+[ 2015-03-09T09:56:22+08:00 ] /admin.php?m=Public&a=login | NOTIC: [2] in_array() expects parameter 2 to be array, null given Action.class.php 第 430 行.
+[ 2015-03-09T09:56:31+08:00 ] /admin.php?m=Public&a=loginAction | ERR: (ThinkException) No such file or directory
+[ 2015-03-09T09:56:31+08:00 ] /admin.php?m=Public&a=login | NOTIC: [2] in_array() expects parameter 2 to be array, null given Action.class.php 第 430 行.
+[ 2015-03-09T09:56:39+08:00 ] /admin.php?m=Public&a=loginAction | ERR: (ThinkException) No such file or directory
+[ 2015-03-09T09:56:39+08:00 ] /admin.php?m=Public&a=login | NOTIC: [2] in_array() expects parameter 2 to be array, null given Action.class.php 第 430 行.
+[ 2015-03-09T09:56:57+08:00 ] /admin.php?m=Public&a=loginAction | ERR: (ThinkException) No such file or directory
+[ 2015-03-09T09:56:57+08:00 ] /admin.php?m=Public&a=login | NOTIC: [2] in_array() expects parameter 2 to be array, null given Action.class.php 第 430 行.

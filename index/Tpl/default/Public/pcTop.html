@@ -1,0 +1,23 @@
+<div style="background-color:#595959; width:100%;height:25px;">
+    <table width="960px" align="center">
+        <tr>
+            {{if $is_login_tmp}}
+            <td align="right"><font color="#FFFFFF">欢迎您 用户 {{$smarty.session.user.usertel}} , <a href="?m=Login">个人中心</a> &nbsp;&nbsp;<a href="#">购物车</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</font></td>
+            {{else}}
+            <td align="right"><font color="#FFFFFF"><a href="?m=Register" style="color: #FFF">注册</a>&nbsp;&nbsp;<a href="?m=Login" style="color: #FFF">登录</a>&nbsp;&nbsp;<a href="#" style="color: #FFF">购物车</a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</font></td>
+            {{/if}}
+        </tr>
+    </table>
+</div>
+<table style="width:960px" align="center">
+    <tr>
+        <td width="0%"></td>
+        <td height="70" valign="middle" width="27%">
+            <img src="__ROOT__/index/Tpl/images/pcimages/logo.gif" style="display:inline" /> &nbsp;</td>
+        <td width="14%" align="center"><font style="font-size:18px; font-weight:bold; color:#595959">首页</font></td>
+        <td width="14%" align="center"><font style="font-size:18px; font-weight:bold; color:#595959">黑米盒子</font></td>
+        <td width="14%" align="center"><font style="font-size:18px; font-weight:bold; color:#595959">充值服务</font></td>
+        <td width="14%" align="center"><font style="font-size:18px; font-weight:bold; color:#595959">客户服务</font></td>
+        <td width="17%" align="center"><font style="font-size:18px; font-weight:bold; color:#595959">黑米论坛</font></td>
+    </tr>
+</table>

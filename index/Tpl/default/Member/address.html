@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/heimilogo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+      $("#ok").click(function(){
+    	   
+    	      location.href="?m=Member&a=payMethod";
+      })
+      $("#province").change(function(){
+        
+            $("#province").find("option").each(function(){
+             
+                  if(this.selected == true){
+                        
+                        $("#city").empty();
+                        $("#city").append("<option>请选择市</option>");
+                        $("#area").empty();
+                        $("#area").append("<option>请选择地区</option>");
+
+                        $.ajax({
+                          
+                              url:"?m=Member&a=threeAjax",
+                              data:"fid="+this.value,
+                              dataType:"text",
+                              type:"GET",
+                              success:function(re){
+                        
+                                    $("#city").append(re);
+                              
+                              }
+                        })
+                  }
+            })
+      })
+      $("#city").change(function(){
+        
+            $("#city").find("option").each(function(){
+                                        
+                  if(this.selected == true){
+                        
+                        $("#area").empty();
+                        $.ajax({
+                          
+                              url:"?m=Member&a=threeAjaxArea",
+                              data:"fid="+this.value,
+                              dataType:"text",
+                              type:"GET",
+                              success:function(re){
+                        
+                                    $("#area").append(re);
+                              
+                              }
+                        })
+                  }
+            })
+      })
+     
+})
+
+</script>
+<body>
+<div id="main">
+    
+<div class="menu_bg ">
+      <div class="menu_width "><a href="?m=Index&a=index">首页</a> 黑米WIFI</div>
+</div>  
+<div class=add_upd>
+<center>
+<h1>请输入地址信息</h1>
+<form method="post" action="?m=Member&a=addressAddSave">
+      <div class="info">收货人姓名</div>
+      <input type="text" name="name" id="name" value=""/><br/>
+	  <div class="info2">手机号码</div>
+      <input type="text" name="tel" id="tel" value=""/><br/>
+      <div class="info1">收货地址</div>
+      <select name="province" id="province">
+                <option>请选择省</option>
+                {{foreach from=$pArr item=v}}
+                <option value="{{$v.provinceID}}">{{$v.province}}</option>
+                {{/foreach}}
+              </select>
+              <select name="city" id="city">
+                <option>请选择市</option>
+              </select>
+              <select name="area" id="area">
+                <option>请选择地区</option>
+              </select><br/> 
+      <input type="text" name="detail" id="detail" value=""/><br/>
+	  <div class="info1">邮政编码</div>
+      <input type="text" style="height:2.58em;width:80%;font-size:1em;color:#909090;" name="mailCode" id="mailcode" value=""/><br/>
+      <img width="90%" src="__ROOT__/index/Tpl/images/querentijiao.gif" id="addSub"> 
+</form>
+</center>
+</div>
+<!--footer-->
+{{include file="default/Public/footer.html"}}
+<!--footer end-->
+</div>
+</body>
+</html>

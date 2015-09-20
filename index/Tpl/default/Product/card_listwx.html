@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+function fun1(id){
+//$.ajax({
+  //    url:"?m=Member&a=isLogin",
+  //    success:function(re){
+      //      if($.trim(re)==="1"){
+                  var num=1;
+                  var type=2;
+                  $.ajax({
+                          url:"?m=Product&a=productSetcookie",
+                          data:"pid="+id+"&num="+num+"&type="+type,
+                          dataType:"text",
+                          type:'GET',
+                          success:function(re){
+                                location.href="?m=Member&a=order_card";
+                          }
+                  }) 
+    //        }else{
+  //                location.href="?m=Member&a=login";
+//            }            
+    //  }
+//})
+}
+</script>
+
+<body>
+<div id="main">
+<!--
+<div class="menu_bg" style="height:2.9em;position:relative;">
+
+      <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">
+                <span class="sTlh" style="line-height:2.9em;display:block;width:100%">充值服务</span>
+      </div>
+      <div class="menu_width " style="position:absolute;left:0;top:0" >
+          <span class="spanlh" onclick="javascript:history.go(-1);"  >
+              <img src="__ROOT__/index/Tpl/images/back.gif" width="100%"/>
+          </span>
+      </div>
+         
+</div>    
+-->
+<!-- banner图片-->
+<div class="banner">
+      <img src=__ROOT__/index/Tpl/images/card_list_banner.jpg border="0"/>
+</div>
+
+<!--banner end-->
+
+<!-- 充值卡列表开始-->
+{{foreach from=$card item=v}}
+<a href="index.php?m=Product&a=card_detailwx&id={{$v.id}}&wxid={{$wxid}}">
+<div class="card clear">
+      <div class="tu">
+          <img src={{$v.imgthumb}} width="100%"/>
+            <!-- <img src={{$v.imgthumb}}></a> -->
+      </div>	
+      <div class="desc">
+              <h2>{{$v.title}}</h2>
+          <!--   
+	   		{{if $v.validTime==4}}
+       		<div>有效期至2014-4-30</div>
+       		{{elseif $v.validTime==5}}
+       		<div>有效期至2014-5-31</div>
+                      {{elseif $v.validTime==6}}
+       		<div>有效期至2014-6-30</div>
+                      {{elseif $v.validTime==7}}
+       		<div>有效期至2014-7-31</div>
+                      {{elseif $v.validTime==8}}
+       		<div>有效期至2014-8-31</div>
+                      {{elseif $v.validTime==9}}
+       		<div>有效期至2014-9-30</div>
+                      {{elseif $v.validTime==10}}
+       		<div>有效期至2014-10-31</div>
+                      {{elseif $v.validTime==11}}
+       		<div>有效期至2014-11-30</div>
+                      {{elseif $v.validTime==12}}
+       		<div>有效期至2014-12-31</div>
+       		{{/if}}
+            -->
+              <div style="margin-top:-0.3em; margin-bottom:0.55em">价格：{{if $v.isDiscount==1}}<font style="text-decoration:line-through;">{{$v.price}}&nbsp;元</font>&nbsp;{{/if}}&nbsp;{{$v.price-$v.discount}}元</div>
+              <div style="width:7.2em;height:2.1em"><img src="__ROOT__/index/Tpl/images/lookdetail.gif" width="100%" style="margin-bottom:10px;"/></div>
+        </div>
+</div>
+</a>
+{{/foreach}}
+  
+<!-- 充值卡列表end-->  
+
+ 
+<!--banner end-->
+</div>
+<!--footer-->
+<div style="color:#909090; margin-bottom:2em; margin-top: 4em;">本页面由黑米WiFi为您提供安全保障，请您放心使用</div>
+
+
+<!--footer end-->
+<div style="display:none">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

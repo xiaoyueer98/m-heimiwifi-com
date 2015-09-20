@@ -1,0 +1,70 @@
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+      
+      function fun1(id){
+              $.ajax({
+            
+                    url:"?m=Member&a=cancelDingdan",
+                    data:"dingdanId="+id,
+                    dataType:"text",
+                    type:'GET',
+                    success:function(re){
+                   // alert(re);
+                           if($.trim(re)==="1"){
+                                 alert("删除成功");
+                           }else{
+                                 alert("删除失败");
+                           }
+              }
+      })         
+    
+      } 
+</script> 
+<center>
+
+<table>
+  <tr>
+    <td colspan="2" style="text-align:center;padding-top:100px;"><h2>订单信息</h2></td>
+  </tr>
+  {{foreach from=$oArr item=v}} 
+  <tr>
+    <td>商品名称</td>
+    <td>{{$v.title}}</td>
+  </tr>
+  <tr>
+    <td>价格</td>
+    <td>{{$v.price}}</td>
+  </tr>
+  <tr>
+    <td>数量</td>
+    <td>{{$v.num}}</td>
+  </tr>
+  <tr>
+    <td>总价</td>
+    <td>{{$v.sum}}</td>
+  </tr>
+  <tr>
+    <td>状态</td>
+    {{if $v.status == 1}}
+    <td>未付款</td>
+    {{elseif $v.status == 2}}
+    <td>已付款</td>
+    {{elseif $v.status == 3}}    
+    <td>已付款</td>
+    {{elseif $v.status == 4}} 
+    <td>已发货</td>
+    {{elseif $v.status == 5}}      
+    <td>交易完成</td>
+    {{/if}} 
+  </tr>
+  <tr>
+    <td><input type="button" value="取消订单" id="{{$v.id}}"  onclick="fun1(this.id);"></td>
+    {{if $v.status == 1}}
+    <td><a href=""><input type="button" value="去付款"></a></td>
+    {{/if}} 
+  </tr>
+  {{/foreach}}
+</table>
+
+</center>
+

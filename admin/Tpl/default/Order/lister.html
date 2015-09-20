@@ -1,0 +1,86 @@
+<html>
+<head>
+      <title>订单列表页</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <link type="text/css" href="__ROOT__/admin/Tpl/css/html.css" rel="stylesheet">
+      <link type="text/css" href="__ROOT__/admin/Tpl/css/date.min.css" rel="stylesheet">
+      <script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery.js"></script>
+      <script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery-1.7.2.min.js"></script>
+</head>
+
+<body>
+<center>
+<table>
+      <tr id="tr1"><th colspan="7"><h2>订单列表</h2></th></tr>
+      <tr id="tr2">
+            <form action="admin.php?m=Order&a=lister" method="get">
+            <td id="td1"></td><input type="hidden" name="m" value="Order"><input type="hidden" name="a" value="lister">
+            <td colspan="2" id="td2">
+                  <input class="datepicker datepicker1" style="width: 78px;"alt="开始日期" title="开始日期" name="start_time" {{if $start_time==""}} value="开始日期" {{else}} value={{$start_time}} {{/if}} default_val="开始日期"style="color:#999999;" type="text" id="start_time">
+                  &nbsp;到 &nbsp;
+                  <input class="datepicker datepicker2" style="width: 78px"alt="截止日期" title="截止日期" name="end_time" {{if $end_time==""}} value="截止日期" {{else}} value={{$end_time}} {{/if}}   default_val="截止日期"style="color:#999999;" type="text" id="end_time">
+            </td>
+            <td id="td3">活动码1：<input type="text"name="code" id="code" value="{{$code}}"></td>
+            <td id="td4">姓名：<input type="text" name="name" id="name" value="{{$name}}"></td>
+            <td id="td5">状态：<select name="status" id="status">
+                            <option value=""}} >全部</option>
+                            <option value="0" {{if $sta=="0"}} selected="selected"{{/if}}>已生成</option>
+                            <option value="1" {{if $sta=="1"}} selected="selected"{{/if}}>已发货</option>
+                            <option value="2" {{if $sta=="2"}} selected="selected"{{/if}}>已完成</option>
+                      </select>
+            </td>
+            <td id="td6"><input type="submit" value="搜索"></td>
+            </form>
+      </tr>
+</table> 
+<table id="t1">
+      <tr>
+            <th><input type="checkbox" id="all"></th>
+            <th>ID</th>
+            <th>商品</th>
+            <th>价格</th>
+            <th>是否打折</th>
+            <th>折后价</th>
+            <th>数量</th>
+            <th>地址</th>
+            <th>电话</th>
+            <th>状态</th>
+            <th>生成时间</th>
+            <th>付款方式</th>
+            <th>快递</th>
+            <th>快递费</th>
+            <th>备注</th>
+            <th>取消订单原因</th>
+      </tr>
+      {{foreach from=$orderArr item=v }}
+      <tr>
+            <th><input type="checkbox" value="{{$v.id}}" class=box></th>
+            <th>{{$v.id}}</th>
+            <th>{{$v.title}}</th>
+            <th>{{$v.price}}</th>
+            <th>{{$v.isDiscount}}</th>
+            <th>{{$v.discount}}</th>
+            <th>{{$v.num}}</th>
+            <th>{{$v.address}}</th>
+            <th>{{$v.tel}}</th>
+            <th>{{$v.status}}</th>
+            <th>{{$v.time}}</th>
+            <th>{{$v.payMethod}}</th>
+            <th>{{$v.transfer}}</th>
+            <th>{{$v.transferPay}}</th>
+            <th>{{$v.payMethod}}</th>
+            <th>{{$v.transfer}}</th>
+            <th>{{$v.other}}</th>
+            <th>{{$v.cancelCause}}</th>
+      </tr>
+      {{/foreach}}
+</table>
+</center>
+</div onclick="getDate();">{{$pageStr}}<div>
+
+</body>
+</html>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/checkbox.js"></script>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/date.js?v={STATIC_VERSION}"></script>
+
+

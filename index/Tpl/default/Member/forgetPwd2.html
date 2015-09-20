@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+$(".refa").click(function(){
+      tel="{{$tel}}";
+      $.ajax({
+	          url:"index.php?m=Member&a=telAjax1",
+	          data:"tel="+tel,
+	          dataType:"text",
+	          type:'GET',
+	          success:function(re){
+                  if($.trim(re)==="1")
+                        sys_alert("已重新发送短信验证码到您的手机");
+            }
+      })      
+      
+})
+var tip="验证码";
+var yzm="";
+$("#phone_yzm").val(tip);
+$("#phone_yzm").css("color","#909090");
+$("#phone_yzm").focus(function(){
+      yzm=$("#phone_yzm").val();
+      if(yzm==tip){
+            
+            $("#phone_yzm").val("");
+            $("#phone_yzm").css("color","#61605e");
+            yzm=$("#phone_yzm").val();
+      }
+     
+})
+$("#phone_yzm").blur(function(){
+      yzm=$("#phone_yzm").val(); 
+      if(yzm==""){
+            $("#phone_yzm").val(tip);
+            $("#phone_yzm").css("color","#909090");
+      }   
+       
+})
+$(".btn").click(function(){
+    
+      var yzm=$("#phone_yzm").val();
+      var tel = $("input[name='tel']").val(); 
+
+      if(!yzm)
+	  {
+	         sys_alert("请输入验证码");
+		 return false;
+	  }
+	  else if(!tel)
+	  {
+		  sys_alert("系统参数错误，请返回第一步");
+		  return false;
+	  }else{
+
+		    $.ajax({
+	                url:"index.php?m=Member&a=getYzm",
+	                data:"tel="+tel,
+	                dataType:"text",
+	                type:'POST',
+	                success:function(re){
+                              if($.trim(re)!=yzm){
+				   //sys_alert(re);  
+				   return false;
+		              }else{	  
+				   $("form")[0].submit();    
+			      }    
+
+                         }
+                    })
+	  }
+        
+})
+})
+</script>
+<body>
+    
+<div class="menu_bg " style="height:2.9em;position:relative;">
+     <div style="position:absolute;text-align:center;margin:0;width:100%;height:100%;color:#626262;">   
+                <span class="sTlh" style="line-height:2.9em;display:block;width:100%">登录</span>
+      </div>
+      <div class="menu_width " style="position:absolute;left:0;top:0" >
+           <span class="spanlh" onclick="javascript:history.go(-1);" >
+                 <img width="100%" src="__ROOT__/index/Tpl/images/back.gif">
+           </span>
+      </div>
+</div>      
+<form action="?m=Member&a=forgetPwd3" method="post">        
+<div class="pwd2">
+      <div class="title">找回账户密码</div>
+      <div class="tip"><p>系统已向您的手机{{$tel}}发送了一条短信，请及时查收验证码</p></div>
+      <div class="phone_yzm"><input type="text" value="验证码" id="phone_yzm"></div>
+      <input type="hidden" value="{{$tel}}" name="tel">
+	  <input type="hidden" value="" id="code">
+      <div class="btn"><img style="width:82%" src="__ROOT__/index/Tpl/images/nextjh.gif"></div>
+      <div class="refa">重发验证短信</div>
+      <div class="tip2">如果手机不再使用，请联系黑米客服进行人工找回</div>
+</div>
+</form>
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

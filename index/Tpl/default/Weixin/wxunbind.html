@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+function on2(){
+//	$("#wxform").submit();
+//	return;
+//	if(sjh && re1 && reUpd){
+		var ccid=encodeURI('{{$r.CCID}}');
+		var wxid=encodeURI('{{$r.weixinid}}');
+		$.ajax({
+			  url:"index.php?m=Weixin&a=wxunbind",
+			  data:"html=1&ccid="+ccid+"&wxid="+wxid,
+			  dataType:"text",
+			  type:'POST',
+			  success:function(re){
+				  if($.trim(re)=="1"){
+					sjh=true;
+                                    location.href='__ROOT__/index.php?m=Weixin&a=wxunbind2'
+				  }else{
+                                        sjh=false;
+					   sys_alert(re);   
+				  }
+		   }
+	 })
+//	}
+}
+</script>
+<body bgcolor="#f1f1f1">
+<div class="wx_menu_bg"> 
+	<div class="spanlh">设备号状态</div>
+    <div class="wxformlh">
+        <div><span style="line-height:4em;">微信用户：</span><span id="wxnn">{{$r.wxname}}</span></div>
+        <div><span>设备号：</span><span id="wxsbh">{{$r.CCID}}</span></div>
+        <div style="text-align:center;"><div style="width:1em;height:1em; display:inline-block;"><img src="__ROOT__/index/Tpl/images/wxjg.png" width="100%" /></div><div style="display:inline-block; line-height:5em; color:#fc7438">&nbsp;&nbsp;如需解绑，请点击按钮进行操作</div></div>
+    	<form action="index.php?m=Weixin&a=wxunbind" method="post" id="wxform">
+        <input name="wxnn" id="wxnn" type="hidden" value=""  />
+        <input name="ccid" id="ccid" type="hidden" value=""  />
+        <div style="margin-top:1em; padding-top:1em; margin-bottom:2em;"><img src="__ROOT__/index/Tpl/images/wxunbind.png" width="90%" onclick="on2()" /></div>
+        </form>
+    </div>
+    <div class="">
+    </div>
+</div>
+
+<div style="color:#909090; margin-bottom:2em;">本页面由黑米WiFi为您提供安全保障，请您放心使用</div>
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>

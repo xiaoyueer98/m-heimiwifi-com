@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">window.CKEDITOR_BASEPATH='__ROOT__/admin/Tpl/ckeditor/'</script>
+<script type="text/javascript" src="__ROOT__/admin/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+              re_title=false;re_type=false;
+              $(document).ready(function(){
+	                     $("[name='title']").blur(function(){
+									 title=$("[name='title']").val();
+									 if(title==""){
+											 $(".span_title").html("<font color='red'>标题不能为空</font>"); 
+											 re_title=false;       
+									 }else if(title!=""){
+											 $.ajax({
+														url:'__URL__/addAjax',
+														data:'title='+title,
+														type:'GET',
+														dataType:'text',
+														cache:false,
+														success:function(re){
+														//alert(re);
+																   if(re){ 
+																   		//alert("ss");
+																		 $(".span_title").html("<font color='red'>该题目已存在</font>");                                                       
+																		 re_title=false;
+																   }else{
+																		 $(".span_title").html("<font color='green'>合法</font>"); 
+																		 re_title=true;
+																   }
+														}
+														
+											  
+											 })
+									 }
+					   })
+					   $("[name='type']"). blur(function(){ 
+									   if($("[name='type']").val()==""){
+																	  re_type=false;
+																	  $(".span_type").html("<font color='red'>类别不能为空</font>");
+									   }else{
+																	  re_type=true;
+																	  $(".span_type").html("<font color='green'>合法</font>");
+									   }
+					   })
+					   $("[type='button']").click(function(){
+					                    if(re_type && re_title){
+										              $("form")[0].submit();
+										}
+					   })
+			})
+</script>
+<style>
+table{ margin:auto;}
+</style>
+</head>
+
+<body>
+
+<form method="post" action="__URL__/addSave">
+
+<table bgcolor="#0066FF" width="500px" align="center"> 
+
+<tr><td align="center" colspan="2"><h3>添加文章</h3></td></tr>
+
+<tr>
+        <td>标题：</td>
+        <td><input type="text" name="title"/><span class="span_title"></span></td>
+</tr>
+<tr>
+        <td>类型：</td>
+        <td>          <select name="type">
+                      <option selected="selected" value="">请选择</option>
+					  {{foreach from=$arr item=v}}
+					  <option value={{$v.id}}>{{$v.typename}}</option>;
+					  {{/foreach}}
+                      </select><span class="span_type"></span>
+       </td>
+</tr>
+      
+<tr>
+        <td>作者：</td>
+        <td><input type="text" name="author"/><span class="span_author"></span></td>
+</tr>
+     
+<tr>
+       <td>内容：</td>
+       <td><textarea name="content"  ></textarea></td>
+</tr>
+
+<tr>   <td><input type="button" value="提交" /></td>
+      
+</tr>      
+</table>
+</form>
+</body>
+</html>
+<script type="text/javascript">CKEDITOR.replace("content")</script>
+

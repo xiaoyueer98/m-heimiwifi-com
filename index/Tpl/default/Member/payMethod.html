@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet" type="text/css" />
+<link rel="icon" href="__ROOT__/index/Tpl/images/logo.png" type="image/x-icon">
+</head>
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+
+var id;
+
+function  fun2(){
+      $("input").each(function(key){
+    	  
+    	      if(this.checked==true){
+    	    	   
+    	     	    id=this.value;
+    	      }
+      })
+      $.ajax({
+	      url:"?m=Member&a=paySetcookie",
+	      data:"payMethodId="+id,
+	      dataType:"text",
+	      type:'GET',
+	      success:function(re){
+	            if($.trim(re)==="1"){    
+	                  
+                          location.href="?m=Member&a=order";
+                    }else if($.trim(re)==="2"){
+                          location.href="?m=Member&a=order_card";
+                    }
+	      }
+      })    	   
+ 
+}
+
+</script>
+<body>
+<div id="main">
+    
+<div class="menu_bg ">
+      <div class="menu_width "><span class="sTlh"  >黑米WIFI</span></div>
+</div>      
+<div class="pay_method">
+
+<center style="margin-top:4.16em;">
+<input type="radio" checked="checked" value="1" name="payMethod"/>支付宝支付<br/>
+<input type="button" value="确定" onclick="fun2();"> 
+</center>
+
+</div>
+<!--尾部-->
+{{include file="default/Public/footer.html"}}
+<!--尾部end-->
+</div>

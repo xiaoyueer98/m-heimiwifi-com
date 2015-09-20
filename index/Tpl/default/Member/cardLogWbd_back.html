@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">  
+<meta content="yes" name="apple-mobile-web-app-capable" />   
+<meta content="telephone=no" name="format-detection" />
+<title>黑米WiFi官网</title>
+<link href="__ROOT__/index/Tpl/css/sty.css" rel="stylesheet"
+	type="text/css" />
+<link rel="icon" href="__ROOT__/admin/Tpl/images/logo.png"
+	type="image/x-icon">
+</head>
+<script type="text/javascript" src="__ROOT__/index/Tpl/js/jquery.js"></script>
+<script type="text/javascript">
+$("document").ready(function(){
+          $.ajax({
+        
+                url:"?m=Member&a=isBd",
+                success:function(re){
+                if($.trim(re)!="0"){
+                      location.href="index.php?m=Member&a=cardLog";
+
+                }
+          }
+          })
+     $("#ban").css("width");
+     var height=parseInt($("#ban").css("width"))*(254/640);
+     $("#ban").css("height",height);
+     $(".ljbd").click(function(){
+          
+           $.ajax({
+        
+                url:"?m=Member&a=isBd",
+                success:function(re){
+                     if($.trim(re)==="0"){
+                            
+                          
+                           $(".zzc").css("display","block");    
+                           $(".order_upd").css("display","block");    
+                          
+                           $("#cancel").click(function(){
+                                 $("#updIn").val("");
+                                 $(".zzc").css("display","none"); 
+                                 $(".order_upd").css("display","none");
+                           })
+                           $("#updIn").blur(function(){
+                                 reg=/^\w{20}$/; 
+                                 hard_upd=$("#updIn").val();
+                                 if(hard_upd==""){
+                                      reUpd=false;
+                                 }else if(!reg.test(hard_upd)){
+                                      reUpd=false;
+                                      sys_alert("设备号不合法");
+
+                                 }else{
+
+                                      $.ajax({
+	                                    url:"index.php?m=Member&a=isHard",
+	                                    data:"add="+hard_upd,
+	                                    dataType:"text",
+	                                    type:'GET',
+	                                    success:function(re){
+		        
+                                                 if($.trim(re)==="0"){
+			                  
+                                                       sys_alert("设备不存在");
+			                               reUpd=false;
+                                            
+		                                 }else{		     
+			                               reUpd=true;
+	                                         }
+								 
+                                             }
+                                      })
+                               }
+           
+                         }) 
+                         $("#bdupd").click(function(){
+          
+                               if(reUpd==true){
+                                     CCID=$("#updIn").val();
+                                     $.ajax({
+                   
+                                          url:"?m=Member&a=bdMember",
+                                          data:"CCID="+CCID,
+                                          dataType:"text",
+                                          type:"GET",
+                                          success:function(re){
+                                                if($.trim(re)==="1"){
+                              
+                                                     sys_alert("绑定成功");
+                                                     location.href="?m=Member&a=cardLog";
+                                                }else{
+                                                     sys_alert("绑定失败"); 
+                                                }
+
+
+                                           }
+
+                                    })
+            
+                              }  
+                         })
+                     }else{
+                         location.href="?m=Member&a=cardLog";
+                     }
+                           
+                }
+          })    
+       
+    })
+})     
+</script>
+<body>
+<div id="main">
+
+		<div class="menu_bg ">
+			<div class="menu_width">
+				<span class="spanlh"  onclick="javascript:history.go(-1);" ><img width="100%"
+					src="__ROOT__/index/Tpl/images/back.gif">
+				</span>
+        <span class="sTlh" >个人中心</span>
+				{{if $is_login_tmp}}
+			      <div class="sTHlh"  ><a href="index.php?m=Member&a=userCenter"><img width="100%"  src="__ROOT__/index/Tpl/images/me.gif" /></a></div>
+		        {{else}}
+		        {{/if}}
+			</div>
+		</div>
+    <div style="float: left;font-size:1.5em;color:#61605e;text-align:left;margin:5%;width: 90%">充值记录<hr></div>
+    <div style="font-size: 1.25em;margin-bottom: 1em;color:#61605e;float: left;margin-left:5%">没有充值记录～</div>
+    <!-- 
+    <div style="font-size: 30px">绑定黑米WiFi卡号,享受更多服务</div>
+    <div class="ljbd" style="font-size: 36px;margin-top: 50px;line-height: 90px;vertical-align: middle;text-align: center;">立即绑定</div>
+ -->
+</div>  
+
+<div class="zzc"></div>
+<div class="order_upd">
+      <div>
+            <div class="tip">绑定后才可查询，请输入要绑定的设备号</div>
+      </div>
+      <div class="upd_info">
+            <input type="text" value="" id="updIn">
+      </div>
+      <div class="btn">
+            <input type="button" value="立即绑定" id="bdupd">
+            <input type="button" value="取消" id="cancel">
+      </div>
+</div>
+<div style="display:none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6cd12d7ef0cc86ffeb9308a405b813cb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+</div>
+</body>
+</html>
